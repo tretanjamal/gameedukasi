@@ -3,13 +3,16 @@
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Game Interaktif — Belajar sambil bermain</title>
+  <!-- FAVICON EMOJI GAME SESUAI LOGO HEADER -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎮</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root{--bg:#F4F7FE;--card:#FFF;--card-alt:#EBF1FF;--tinta:#1E1B4B;--tinta-soft:#64748B;--indigo:#6366F1;--teal:#06B6D4;--amber:#FBBF24;--rose:#FB7185;--emerald:#10B981;--putih:#FFF;--b-tb:2.5px solid var(--tinta);--sh-lg:0 8px 0 -1px var(--tinta);--sh-md:0 5px 0 -1px var(--tinta);--sh-sm:0 3px 0 -1px var(--tinta);--r-lg:24px;--r-md:16px;--r-sm:12px}
     *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
     body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--tinta);min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;line-height:1.4;-webkit-user-select:none;user-select:none}
-    img{-webkit-user-drag:none;user-select:none}input,textarea{-webkit-user-select:text;user-select:text}
+    img{-webkit-user-drag:none;user-select:none}
+    input,textarea{-webkit-user-select:text;user-select:text}
     h1,h2,h3,h4{font-family:'Baloo 2',cursive;font-weight:800;line-height:1.15;letter-spacing:-.01em}
     button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
     input,textarea,select{font-family:inherit}
@@ -26,15 +29,18 @@
     .merek-teks b{font-family:'Baloo 2',cursive;font-size:1.4rem;line-height:1;display:block}
     .merek-teks span{font-size:.72rem;font-weight:800;color:var(--tinta-soft);letter-spacing:.05em;text-transform:uppercase}
     .nav-actions{display:flex;align-items:center;gap:10px}
+    
     .hero{text-align:center;padding:36px 0 16px}
     .hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--putih);border:var(--b-tb);padding:6px 16px;border-radius:999px;font-size:.82rem;font-weight:800;box-shadow:var(--sh-sm);margin-bottom:12px;transform:rotate(-1.5deg)}
     .hero-badge span.titik{width:9px;height:9px;border-radius:50%;background:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,.25)}
     .hero-judul{font-size:clamp(2.3rem,5.8vw,4rem);color:var(--tinta);margin-bottom:8px}
     .hero-judul span.highlight{color:var(--indigo);text-decoration:underline wavy var(--amber)}
     .hero-sub{color:var(--tinta-soft);font-size:clamp(.92rem,2vw,1.08rem);font-weight:700;max-width:680px;margin:0 auto 16px;line-height:1.6}
+
     .top-meta-stack{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;margin:0 auto 20px}
     .game-count-pill{display:inline-flex;align-items:center;gap:8px;background:var(--putih);border:2px solid var(--tinta);border-radius:999px;padding:6px 18px;font-size:.88rem;font-weight:800;box-shadow:var(--sh-sm)}
     .game-count-pill b{color:var(--indigo);font-size:1.02rem}
+
     .filter-wrapper-sticky{position:sticky;top:67px;z-index:45;padding-bottom:10px;margin-bottom:22px}
     .filter-panel{background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border:var(--b-tb);border-radius:var(--r-lg);padding:12px 16px;box-shadow:0 12px 30px -10px rgba(30,27,75,.12);display:flex;flex-direction:column;gap:10px}
     .search-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
@@ -75,19 +81,23 @@
     .kartu-tag.tag-fase{background:#EDE9FE;color:#5B21B6;border-color:rgba(99,102,241,.4)}
     .kartu-tag.tag-mapel{background:#CFFAFE;color:#155E75;border-color:rgba(6,182,212,.5)}
     .kartu-judul{font-size:1.15rem;line-height:1.25;color:var(--tinta)}
+    
     .kartu-meta{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-top:4px}
     .kartu-creator-wrap{display:flex;flex-direction:column;min-width:0;line-height:1.3}
     .kartu-creator-nama{font-size:.8rem;font-weight:700;color:var(--tinta-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .kartu-creator-nama b{color:var(--tinta)}
     .kartu-creator-sekolah{font-size:.74rem;font-weight:800;color:var(--teal);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .kartu-counter-teks{font-size:.74rem;font-weight:800;color:var(--tinta-soft);display:inline-flex;align-items:center;gap:3px;flex-shrink:0;background:var(--card-alt);padding:3px 8px;border-radius:999px;border:1px solid rgba(30,27,75,.12);margin-top:2px}
+    
     .kartu-aksi{margin-top:auto;padding-top:10px;display:flex;flex-direction:column;gap:6px}
     .kartu-sub-aksi{display:flex;gap:6px}
     .kartu-sub-aksi .btn{flex:1;padding:4px 8px;font-size:.75rem}
     .empty-state{grid-column:1/-1;text-align:center;padding:60px 10px}.empty-state .icon{font-size:3.5rem;margin-bottom:10px}
+
     .online-indicator-bar{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px;font-size:.85rem;font-weight:800;color:var(--tinta)}
     .online-ping{width:10px;height:10px;border-radius:50%;background:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,.3);animation:denyut 1.8s infinite}
     @keyframes denyut{0%{box-shadow:0 0 0 2px rgba(16,185,129,.4)}50%{box-shadow:0 0 0 6px rgba(16,185,129,0)}100%{box-shadow:0 0 0 2px rgba(16,185,129,.4)}}
+
     .chat-section{margin:20px auto 30px;background:var(--putih);border:var(--b-tb);border-radius:var(--r-lg);padding:22px;box-shadow:var(--sh-md)}
     .chat-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;border-bottom:2px dashed rgba(30,27,75,.15);padding-bottom:12px}
     .chat-list{display:flex;flex-direction:column;gap:12px;max-height:420px;overflow-y:auto;padding-right:6px}
@@ -100,6 +110,7 @@
     .chat-replies{margin-top:10px;padding-left:14px;border-left:3px solid var(--indigo);display:flex;flex-direction:column;gap:8px}
     .chat-reply-item{background:var(--putih);border:1.5px solid var(--tinta);border-radius:var(--r-sm);padding:8px 12px}
     .form-kirim-chat{margin-top:18px;display:flex;flex-direction:column;gap:10px;background:var(--card-alt);padding:14px;border-radius:var(--r-md);border:2px solid var(--tinta)}
+
     .galeri-section{margin:10px auto 34px;background:linear-gradient(135deg, #FFF 0%, #F8FAFC 100%);border:var(--b-tb);border-radius:var(--r-lg);padding:24px;box-shadow:var(--sh-md)}
     .galeri-header-badge{display:inline-block;background:var(--amber);color:var(--tinta);font-weight:800;font-size:.72rem;padding:3px 10px;border-radius:999px;border:1.5px solid var(--tinta);margin-bottom:6px}
     .galeri-scroll{display:flex;gap:16px;overflow-x:auto;padding:8px 4px 16px;scroll-snap-type:x mandatory}
@@ -115,18 +126,21 @@
     .galeri-info{padding:10px 12px;border-top:2px solid var(--tinta);background:#FFF}
     .galeri-info b{display:block;font-size:.85rem;font-family:'Baloo 2',cursive;color:var(--tinta);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .galeri-info small{display:block;font-size:.72rem;font-weight:700;color:var(--tinta-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
     .bottom-info-bar{margin:10px auto 40px;display:flex;flex-direction:column;align-items:center;gap:16px}
     .stats-counter-box{display:inline-flex;align-items:center;gap:20px;background:var(--putih);border:var(--b-tb);border-radius:var(--r-md);padding:10px 24px;box-shadow:var(--sh-md)}
     .stat-unit{text-align:center}
     .stat-unit b{font-family:'Baloo 2',cursive;font-size:1.4rem;color:var(--tinta);line-height:1;display:block}
     .stat-unit small{font-size:.7rem;font-weight:800;color:var(--tinta-soft);text-transform:uppercase}
     .stat-sep{width:2px;height:28px;background:rgba(30,27,75,.15)}
+
     .footer{margin-top:auto;background:var(--card-alt);border-top:var(--b-tb);padding:24px 0;position:relative;text-align:center}
     .footer p{font-weight:700;font-size:.85rem;color:var(--tinta-soft)}.footer b{color:var(--tinta)}
     .titik-rahasia{position:absolute;right:12px;bottom:12px;width:28px;height:28px;border-radius:50%;cursor:default;display:grid;place-items:center;user-select:none;touch-action:none}
     .titik-rahasia::after{content:'';width:6px;height:6px;border-radius:50%;background:var(--tinta);opacity:.12;transition:.3s}
     .titik-rahasia.tekan::after{opacity:.6;transform:scale(2.8);background:var(--amber)}
     .titik-rahasia.sukses::after{opacity:1;transform:scale(3.5);background:var(--emerald)}
+    
     .overlay{position:fixed;inset:0;background:rgba(30,27,75,.65);backdrop-filter:blur(4px);z-index:100;display:none;place-items:center;padding:16px;overflow-y:auto}
     .overlay.buka{display:grid;animation:fadeIn .18s ease-out}
     .modal-box{background:var(--putih);border:3px solid var(--tinta);border-radius:var(--r-lg);width:min(680px,100%);box-shadow:0 16px 36px rgba(0,0,0,.25);overflow:hidden;display:flex;flex-direction:column;animation:popIn .22s cubic-bezier(.34,1.56,.64,1)}
@@ -138,14 +152,15 @@
     .field-group label{display:block;font-weight:800;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--tinta-soft);margin-bottom:6px}
     .field-group input,.field-group textarea,.field-group select{width:100%;padding:10px 14px;border:2px solid var(--tinta);border-radius:var(--r-sm);background:var(--bg);font-weight:700;color:var(--tinta);outline:none}
     .field-group input:focus,.field-group textarea:focus,.field-group select:focus{border-color:var(--indigo);background:#FFF}
-    .field-group .bantuan{font-size:.72rem;font-weight:700;color:var(--tinta-soft);margin-top:4px}
     .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     @media(max-width:540px){.grid-2{grid-template-columns:1fr}}
     .checkbox-row{display:flex;align-items:center;gap:10px;margin-top:10px;font-weight:800;font-size:.85rem;cursor:pointer}
     .checkbox-row input{width:18px;height:18px;accent-color:var(--indigo)}
+    
     .admin-nav{display:flex;gap:6px;background:var(--card-alt);padding:5px;border:var(--b-tb);border-radius:999px;margin-bottom:18px}
     .admin-nav button{flex:1;padding:8px 8px;border-radius:999px;font-family:'Baloo 2',cursive;font-weight:700;font-size:.9rem;transition:.15s}
     .admin-nav button.aktif{background:var(--tinta);color:var(--putih)}
+    
     .admin-list-item{background:var(--bg);border:2px solid var(--tinta);border-radius:var(--r-md);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;box-shadow:var(--sh-sm)}
     .admin-list-info{flex:1;min-width:0}
     .admin-list-info b{display:block;font-family:'Baloo 2',cursive;font-size:1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -153,10 +168,12 @@
     .admin-actions{display:flex;align-items:center;gap:6px}
     .video-container{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border:2px solid var(--tinta);border-radius:var(--r-md);background:#000}
     .video-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+    
     .sosmed-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:6px 0}
     .sosmed-link{padding:6px 14px;border:2px solid var(--tinta);border-radius:999px;font-size:.8rem;font-weight:800;text-decoration:none;background:var(--bg);color:var(--tinta);box-shadow:var(--sh-sm);transition:.12s}
     .sosmed-link:hover{transform:translateY(-1px)}
     #wadahAdsense{margin:18px auto;text-align:center;overflow:hidden;display:none}
+
     .toast-box{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:200;display:flex;flex-direction:column;gap:8px;pointer-events:none}
     .toast{background:var(--tinta);color:var(--putih);padding:10px 20px;border-radius:999px;border:2px solid var(--putih);font-weight:800;font-size:.88rem;box-shadow:0 8px 20px rgba(0,0,0,.3);animation:popIn .25s cubic-bezier(.34,1.56,.64,1)}
     @keyframes popIn{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
@@ -166,8 +183,14 @@
 <body oncontextmenu="return false;">
   <header class="header">
     <div class="bungkus header-isi">
-      <div class="merek"><div class="logo-ikon">🎮</div><div class="merek-teks"><b>Game Interaktif</b><span>Belajar sambil bermain</span></div></div>
-      <div class="nav-actions"><button class="btn-icon" id="btnSuara" title="Suara Efek (On/Off)">🔊</button><button class="btn-icon" id="btnLayar" title="Layar Penuh">⛶</button></div>
+      <div class="merek">
+        <div class="logo-ikon">🎮</div>
+        <div class="merek-teks"><b>Game Interaktif</b><span>Belajar sambil bermain</span></div>
+      </div>
+      <div class="nav-actions">
+        <button class="btn-icon" id="btnSuara" title="Suara Efek (On/Off)">🔊</button>
+        <button class="btn-icon" id="btnLayar" title="Layar Penuh">⛶</button>
+      </div>
     </div>
   </header>
   
@@ -177,7 +200,7 @@
     <p class="hero-sub">Mainkan puluhan media dan game edukatif yang bisa dimainkan langsung di Papan Interaktif Digital maupun browsermu.</p>
   </section>
 
-  <!-- GAME TERSEDIA & TOMBOL PENGEMBANG DI BAWAHNYA SECARA TERPUSAT -->
+  <!-- GAME TERSEDIA & TENTANG PENGEMBANG -->
   <section class="bungkus top-meta-stack">
     <div class="game-count-pill"><span>🎮 Game Tersedia:</span><b id="topTotalGameStat">0 Pilihan</b></div>
     <button class="btn btn-sm btn-teal" onclick="bukaModalPengembang()"><span>👨‍🏫 Tentang Pengembang</span></button>
@@ -207,6 +230,7 @@
   <main class="bungkus"><div class="game-grid" id="gridGame"></div></main>
   <div class="bungkus" id="wadahAdsense"></div>
 
+  <!-- PERCAKAPAN & DISKUSI -->
   <section class="bungkus chat-section">
     <div class="online-indicator-bar"><span class="online-ping"></span><span>Sedang online membuka portal ini: <b id="statOnlineUsers" style="color:var(--emerald)">1</b> orang</span></div>
     <div class="chat-header">
@@ -240,6 +264,7 @@
     <div class="galeri-scroll" id="wadahDaftarGaleri"></div>
   </section>
 
+  <!-- COUNTER STATISTIK -->
   <section class="bungkus bottom-info-bar">
     <div class="stats-counter-box">
       <div class="stat-unit"><b id="statTotalPengunjung">0</b><small>Total Pengunjung</small></div>
@@ -254,6 +279,7 @@
   </footer>
   <div class="toast-box" id="wadahToast"></div>
 
+  <!-- MODAL ZOOM GALERI -->
   <div class="overlay" id="modalZoom" onclick="tutupModal('modalZoom')">
     <div class="modal-box modal-lg" style="background:transparent;border:none;box-shadow:none;text-align:center" onclick="event.stopPropagation()">
       <img id="imgZoomDetail" src="" alt="Zoom Foto" style="max-width:95vw;max-height:80vh;border-radius:var(--r-md);border:3px solid #FFF;box-shadow:var(--sh-lg);object-fit:contain">
@@ -261,6 +287,7 @@
     </div>
   </div>
 
+  <!-- MODAL PENGEMBANG -->
   <div class="overlay" id="modalPengembang">
     <div class="modal-box modal-sm" style="text-align:center">
       <div class="modal-header"><h3>👨‍🏫 Profil Pengembang</h3><button class="btn btn-sm btn-putih" onclick="tutupModal('modalPengembang')">✕</button></div>
@@ -274,6 +301,7 @@
     </div>
   </div>
 
+  <!-- MODAL TUTORIAL YOUTUBE -->
   <div class="overlay" id="modalVideo">
     <div class="modal-box modal-lg">
       <div class="modal-header"><h3 id="judulModalVideo">📺 Tutorial Game</h3><button class="btn btn-sm btn-putih" onclick="tutupModalVideo()">✕</button></div>
@@ -281,6 +309,7 @@
     </div>
   </div>
 
+  <!-- MODAL TUJUAN PEMBELAJARAN -->
   <div class="overlay" id="modalTujuan">
     <div class="modal-box modal-sm">
       <div class="modal-header"><h3>🎯 Tujuan Pembelajaran</h3><button class="btn btn-sm btn-putih" onclick="tutupModal('modalTujuan')">✕</button></div>
@@ -295,6 +324,7 @@
     </div>
   </div>
 
+  <!-- MODAL PENGAJUAN GAME DARI PENGUNJUNG -->
   <div class="overlay" id="modalAjukan">
     <div class="modal-box">
       <div class="modal-header"><h3>🚀 Ajukan Game / Media Pembelajaran</h3><button class="btn btn-sm btn-putih" onclick="tutupModal('modalAjukan')">✕</button></div>
@@ -329,16 +359,21 @@
     </div>
   </div>
 
+  <!-- MODAL LOGIN ADMIN (HINT PASSWORD TELAH DIHAPUS) -->
   <div class="overlay" id="modalLogin">
     <div class="modal-box modal-sm">
       <div class="modal-header"><h3>🔒 Verifikasi Admin</h3><button class="btn btn-sm btn-putih" onclick="tutupModal('modalLogin')">✕</button></div>
       <form id="formLogin" class="modal-body">
-        <div class="field-group"><label>Kata Sandi Akses</label><input type="password" id="inputSandi" required placeholder="Ketik kata sandi..." autocomplete="current-password"><div class="bantuan">Default sandi lokal: <b>admin123</b></div></div>
+        <div class="field-group">
+          <label>Kata Sandi Akses</label>
+          <input type="password" id="inputSandi" required placeholder="Ketik kata sandi..." autocomplete="current-password">
+        </div>
         <button type="submit" class="btn btn-utama" style="width:100%;margin-top:8px">Buka Panel Admin</button>
       </form>
     </div>
   </div>
 
+  <!-- MODAL DASHBOARD ADMIN -->
   <div class="overlay" id="modalAdmin">
     <div class="modal-box">
       <div class="modal-header"><h3>🛠️ Panel Kelola Portal</h3><button class="btn btn-sm btn-putih" onclick="tutupModal('modalAdmin')">✕</button></div>
@@ -348,6 +383,8 @@
           <button id="tabBtnKelola" onclick="pindahTabAdmin('kelola')">Daftar Game</button>
           <button id="tabBtnGaleri" onclick="pindahTabAdmin('galeri')">Kelola Galeri</button>
         </div>
+        
+        <!-- Tab 1: Form Tambah/Edit Game -->
         <form id="formGameAdmin">
           <input type="hidden" id="editGameId">
           <div class="field-group"><label>Judul Permainan *</label><input type="text" id="inJudul" required placeholder="Contoh: Petualangan Angka Pintar"></div>
@@ -378,19 +415,41 @@
           <div class="checkbox-row"><input type="checkbox" id="inSembunyi"><label for="inSembunyi">Sembunyikan dari Tampilan Siswa (Draft)</label></div>
           <div style="display:flex;gap:10px;margin-top:18px"><button type="submit" class="btn btn-utama" style="flex:1" id="btnSimpanGame">Simpan Game</button><button type="button" class="btn btn-putih" onclick="bersihkanFormAdmin()">Reset</button></div>
         </form>
+
+        <!-- Tab 2: Daftar Game -->
         <div id="panelDaftarAdmin" style="display:none">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><span style="font-weight:800;font-size:.85rem;color:var(--tinta-soft)">CADANGAN DATA</span><button class="btn btn-sm btn-teal" onclick="unduhBackupJson()">⬇ Unduh games.json</button></div>
           <div id="listGameAdmin"></div>
         </div>
+
+        <!-- Tab 3: Kelola Galeri (Mendukung Upload Langsung dari Device & Input Link) -->
         <div id="panelGaleriAdmin" style="display:none">
           <form id="formTambahGaleri" style="background:var(--bg);padding:14px;border:2px solid var(--tinta);border-radius:var(--r-md);margin-bottom:18px">
-            <h4 style="font-size:1rem;margin-bottom:10px;color:var(--indigo)">➕ Tambah Dokumentasi Galeri Baru</h4>
+            <h4 style="font-size:1rem;margin-bottom:10px;color:var(--indigo)">➕ Tambah Dokumentasi Galeri</h4>
             <div class="field-group"><label>Judul Kegiatan / Foto *</label><input type="text" id="inGaleriJudul" required placeholder="Contoh: Belajar Pecahan di Papan Interaktif"></div>
-            <div class="field-group"><label>URL Foto / Gambar *</label><input type="url" id="inGaleriUrl" required placeholder="https://images.unsplash.com/... atau link foto"></div>
-            <div class="field-group"><label>Deskripsi Singkat Foto</label><input type="text" id="inGaleriDeskripsi" placeholder="Contoh: Siswa kelas 7 antusias mencoba game kuis"></div>
+            
+            <!-- Opsi Pilihan: Upload File atau Masukkan URL -->
+            <div class="grid-2">
+              <div class="field-group">
+                <label>📁 Upload dari Device</label>
+                <input type="file" id="inGaleriFile" accept="image/*" style="padding:6px;background:#FFF">
+              </div>
+              <div class="field-group">
+                <label>🔗 Atau Link Gambar (URL)</label>
+                <input type="url" id="inGaleriUrl" placeholder="https://images.unsplash.com/...">
+              </div>
+            </div>
+
+            <!-- Preview Gambar Sebelum Disimpan -->
+            <div id="previewGaleriBox" style="display:none;margin-bottom:12px;text-align:center">
+              <img id="imgGaleriPreview" src="" alt="Preview" style="max-height:120px;border-radius:8px;border:1.5px solid var(--tinta)">
+            </div>
+
+            <div class="field-group"><label>Deskripsi Singkat Foto</label><input type="text" id="inGaleriDeskripsi" placeholder="Contoh: Siswa antusias mencoba simulasi sains"></div>
             <button type="submit" class="btn btn-sm btn-utama" style="width:100%" id="btnSimpanGaleri">Simpan ke Galeri 📸</button>
           </form>
-          <h4 style="font-size:1rem;margin-bottom:10px">Daftar Foto Saat Ini</h4>
+
+          <h4 style="font-size:1rem;margin-bottom:10px">Daftar Foto Galeri Saat Ini</h4>
           <div id="listGaleriAdmin"></div>
         </div>
       </div>
@@ -398,15 +457,13 @@
   </div>
 
   <script>
-    const API_URL = 'https://script.google.com/macros/s/AKfycbyBkxFdZ7KVmzF4JKuSaGXk3I1KlHbdzoQKY03E50STsBjU8dFqGcbxAJJsy8rtNBKYmw/exec';
-    const PASS_DEFAULT = 'admin123', STORAGE_KEY = 'eduplay_games_data_v1';
+    const API_URL = 'https://script.google.com/macros/s/AKfycbxuParyeC1k7qrNlBPHF52wdSron4Usl1DkcvLp50iSnMctIEHOxPTfugYLUK4KtLZzNg/exec';
+    const PASS_DEFAULT = 'ninjasaga', STORAGE_KEY = 'eduplay_games_data_v1';
 
     let GAMES = [], KOMENTAR = [], GALERI = [];
     let SETTINGS = {
-      nama_pengembang: "Jamaluddin (Tretan Jamal)",
-      bio_pengembang: "Guru & Pengembang Media Pembelajaran Interaktif.",
-      foto_pengembang: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400",
-      link_saweria: "https://saweria.co",
+      nama_pengembang: "Jamaluddin (Tretan Jamal)", bio_pengembang: "Guru & Pengembang Media Pembelajaran Interaktif.",
+      foto_pengembang: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400", link_saweria: "https://saweria.co",
       sosmed_instagram: "", sosmed_youtube: "", sosmed_portofolio: "", adsense_code: "", total_pengunjung: 0
     };
 
@@ -677,9 +734,7 @@
 
     function updateStatistik() {
       const a = GAMES.filter(g => !g.sembunyi);
-      const totalClicks = a.reduce((s, c) => s + (c.clicks || 0), 0);
-      document.getElementById('statTotalKlikGame').textContent = totalClicks.toLocaleString('id-ID');
-      
+      document.getElementById('statTotalKlikGame').textContent = a.reduce((s, c) => s + (c.clicks || 0), 0).toLocaleString('id-ID');
       const topCountEl = document.getElementById('topTotalGameStat');
       if (topCountEl) topCountEl.textContent = `${a.length} Pilihan`;
     }
@@ -697,6 +752,8 @@
     window.addEventListener('hashchange', cekHashUrl); setTimeout(cekHashUrl, 300);
 
     function bukaModalLogin() { SoundEffects.klik(); bukaModal('modalLogin'); setTimeout(() => document.getElementById('inputSandi').focus(), 150); }
+    
+    // VERIFIKASI SANDI BARU: 'ninjasaga'
     document.getElementById('formLogin').addEventListener('submit', e => {
       e.preventDefault();
       if (document.getElementById('inputSandi').value === PASS_DEFAULT) {
@@ -736,32 +793,101 @@
       sinkronisasiKeBackend({ action: id ? 'update' : 'add', game: p });
     });
 
+    // PENGOLAHAN UPLOAD FOTO DARI DEVICE (KOMPRESI BASE64 OTOMATIS)
+    let base64UploadGaleri = '';
+    document.getElementById('inGaleriFile').addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        // Kompresi gambar via canvas agar ringan saat dikirim
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const maxDim = 800; // Ukuran optimal untuk galeri web
+          let w = img.width, h = img.height;
+          if (w > maxDim || h > maxDim) {
+            if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; }
+            else { w = Math.round((w * maxDim) / h); h = maxDim; }
+          }
+          canvas.width = w; canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          base64UploadGaleri = canvas.toDataURL('image/jpeg', 0.82);
+          
+          // Tampilkan preview
+          document.getElementById('imgGaleriPreview').src = base64UploadGaleri;
+          document.getElementById('previewGaleriBox').style.display = 'block';
+          document.getElementById('inGaleriUrl').value = ''; // Kosongkan input url
+        };
+        img.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Simpan Foto Galeri (Mendukung File Upload Device atau Link URL)
     document.getElementById('formTambahGaleri').addEventListener('submit', async e => {
-      e.preventDefault(); const btn = document.getElementById('btnSimpanGaleri'); btn.disabled = true; btn.textContent = 'Menyimpan Foto...';
-      const payloadGaleri = { id: 'gl-' + Date.now().toString(36), judul: document.getElementById('inGaleriJudul').value.trim(), url: document.getElementById('inGaleriUrl').value.trim(), deskripsi: document.getElementById('inGaleriDeskripsi').value.trim() };
+      e.preventDefault();
+      const btn = document.getElementById('btnSimpanGaleri');
+      const inputUrl = document.getElementById('inGaleriUrl').value.trim();
+      const finalUrl = base64UploadGaleri || inputUrl;
+
+      if (!finalUrl) {
+        tampilkanToast('Pilih file gambar dari device atau isi link URL.');
+        return;
+      }
+
+      btn.disabled = true; btn.textContent = 'Menyimpan Foto...';
+
+      const payloadGaleri = {
+        id: 'gl-' + Date.now().toString(36),
+        judul: document.getElementById('inGaleriJudul').value.trim(),
+        url: finalUrl,
+        deskripsi: document.getElementById('inGaleriDeskripsi').value.trim()
+      };
+
       try {
-        GALERI.unshift(payloadGaleri); renderGaleri(); renderAdminGaleriList();
+        GALERI.unshift(payloadGaleri);
+        renderGaleri();
+        renderAdminGaleriList();
         sinkronisasiKeBackend({ action: 'add_galeri', galeri: payloadGaleri });
-        document.getElementById('formTambahGaleri').reset(); SoundEffects.sukses(); tampilkanToast('Foto galeri ditambahkan!');
-      } catch(err) { SoundEffects.error(); tampilkanToast('Gagal menambah foto.'); }
-      finally { btn.disabled = false; btn.textContent = 'Simpan ke Galeri 📸'; }
+        document.getElementById('formTambahGaleri').reset();
+        base64UploadGaleri = '';
+        document.getElementById('previewGaleriBox').style.display = 'none';
+        SoundEffects.sukses();
+        tampilkanToast('Foto galeri berhasil disimpan!');
+      } catch(err) {
+        SoundEffects.error();
+        tampilkanToast('Gagal menambahkan foto galeri.');
+      } finally {
+        btn.disabled = false; btn.textContent = 'Simpan ke Galeri 📸';
+      }
     });
 
     function renderAdminGaleriList() {
       const w = document.getElementById('listGaleriAdmin');
       if (!GALERI.length) { w.innerHTML = '<p style="text-align:center;color:var(--tinta-soft);padding:14px">Belum ada foto di galeri.</p>'; return; }
-      w.innerHTML = GALERI.map(g => `<div class="admin-list-item">
-        <div style="display:flex;align-items:center;gap:10px;min-width:0">
-          <img src="${g.url}" style="width:42px;height:42px;border-radius:8px;object-fit:cover;border:1.5px solid var(--tinta)">
-          <div class="admin-list-info"><b>${g.judul || 'Dokumentasi'}</b><small>${g.deskripsi || '-'}</small></div>
+      w.innerHTML = GALERI.map(g => `
+        <div class="admin-list-item">
+          <div style="display:flex;align-items:center;gap:10px;min-width:0">
+            <img src="${g.url}" style="width:42px;height:42px;border-radius:8px;object-fit:cover;border:1.5px solid var(--tinta)">
+            <div class="admin-list-info">
+              <b>${g.judul || 'Dokumentasi'}</b>
+              <small>${g.deskripsi || '-'}</small>
+            </div>
+          </div>
+          <button class="btn btn-sm btn-rose" onclick="hapusGaleri('${g.id}')" title="Hapus Foto">🗑️</button>
         </div>
-        <button class="btn btn-sm btn-rose" onclick="hapusGaleri('${g.id}')" title="Hapus Foto">🗑️</button>
-      </div>`).join('');
+      `).join('');
     }
 
     function hapusGaleri(id) {
       if (confirm('Yakin ingin menghapus foto ini dari galeri?')) {
-        GALERI = GALERI.filter(x => x.id !== id); renderGaleri(); renderAdminGaleriList(); SoundEffects.klik(); tampilkanToast('Foto dihapus.');
+        GALERI = GALERI.filter(x => x.id !== id);
+        renderGaleri();
+        renderAdminGaleriList();
+        SoundEffects.klik();
+        tampilkanToast('Foto dihapus dari galeri.');
         sinkronisasiKeBackend({ action: 'delete_galeri', galeriId: id });
       }
     }
