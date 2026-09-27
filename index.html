@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Interaktif — Belajar sambil bermain</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#F4F7FE;--card:#FFF;--card-alt:#EBF1FF;--tinta:#1E1B4B;--tinta-soft:#64748B;--indigo:#6366F1;--teal:#06B6D4;--amber:#FBBF24;--rose:#FB7185;--emerald:#10B981;--putih:#FFF;--b-tb:2.5px solid var(--tinta);--sh-lg:0 8px 0 -1px var(--tinta);--sh-md:0 5px 0 -1px var(--tinta);--sh-sm:0 3px 0 -1px var(--tinta);--r-lg:24px;--r-md:16px;--r-sm:12px}
+    *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+    body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--tinta);min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;line-height:1.4;-webkit-user-select:none;user-select:none}
+    img{-webkit-user-drag:none;user-select:none}input,textarea{-webkit-user-select:text;user-select:text}
+    h1,h2,h3,h4{font-family:'Baloo 2',cursive;font-weight:800;line-height:1.15;letter-spacing:-.01em}
+    button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+    input,textarea,select{font-family:inherit}
+    .bungkus{width:min(1200px,94%);margin-inline:auto}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 18px;border:var(--b-tb);border-radius:999px;font-family:'Baloo 2',cursive;font-weight:700;font-size:.95rem;box-shadow:var(--sh-md);transition:.12s;text-decoration:none;white-space:nowrap;user-select:none}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 7px 0 -1px var(--tinta)}.btn:active{transform:translateY(3px);box-shadow:0 2px 0 -1px var(--tinta)}
+    .btn-utama{background:var(--indigo);color:var(--putih)}.btn-teal{background:var(--teal);color:var(--putih)}.btn-amber{background:var(--amber);color:var(--tinta)}.btn-rose{background:var(--rose);color:var(--putih)}.btn-putih{background:var(--putih);color:var(--tinta)}.btn-emerald{background:var(--emerald);color:var(--putih)}
+    .btn-sm{padding:5px 12px;font-size:.82rem;border-width:2px;box-shadow:var(--sh-sm)}.btn-sm:hover{transform:translateY(-1px);box-shadow:0 4px 0 -1px var(--tinta)}.btn-sm:active{transform:translateY(2px);box-shadow:0 1px 0 -1px var(--tinta)}
+    .btn-icon{width:42px;height:42px;border-radius:14px;border:var(--b-tb);background:var(--putih);box-shadow:var(--sh-sm);display:grid;place-items:center;transition:.15s}.btn-icon:hover{transform:translateY(-2px)}.btn-icon:active{transform:translateY(2px);box-shadow:none}.btn-icon.aktif{background:var(--amber)}
+    .header{position:sticky;top:0;z-index:50;background:rgba(244,247,254,.94);backdrop-filter:blur(10px);border-bottom:var(--b-tb);padding:12px 0}
+    .header-isi{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .merek{display:flex;align-items:center;gap:10px}
+    .logo-ikon{width:42px;height:42px;background:linear-gradient(135deg,var(--indigo),#818CF8);color:#FFF;border:var(--b-tb);border-radius:14px;display:grid;place-items:center;font-size:1.3rem;box-shadow:var(--sh-sm)}
+    .merek-teks b{font-family:'Baloo 2',cursive;font-size:1.4rem;line-height:1;display:block}
+    .merek-teks span{font-size:.72rem;font-weight:800;color:var(--tinta-soft);letter-spacing:.05em;text-transform:uppercase}
+    .nav-actions{display:flex;align-items:center;gap:10px}
+    .hero{text-align:center;padding:36px 0 16px}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--putih);border:var(--b-tb);padding:6px 16px;border-radius:999px;font-size:.82rem;font-weight:800;box-shadow:var(--sh-sm);margin-bottom:12px;transform:rotate(-1.5deg)}
+    .hero-badge span.titik{width:9px;height:9px;border-radius:50%;background:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,.25)}
+    .hero-judul{font-size:clamp(2.3rem,5.8vw,4rem);color:var(--tinta);margin-bottom:8px}
+    .hero-judul span.highlight{color:var(--indigo);text-decoration:underline wavy var(--amber)}
+    .hero-sub{color:var(--tinta-soft);font-size:clamp(.92rem,2vw,1.08rem);font-weight:700;max-width:680px;margin:0 auto 16px;line-height:1.6}
+    .top-meta-stack{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;margin:0 auto 20px}
+    .game-count-pill{display:inline-flex;align-items:center;gap:8px;background:var(--putih);border:2px solid var(--tinta);border-radius:999px;padding:6px 18px;font-size:.88rem;font-weight:800;box-shadow:var(--sh-sm)}
+    .game-count-pill b{color:var(--indigo);font-size:1.02rem}
+    .filter-wrapper-sticky{position:sticky;top:67px;z-index:45;padding-bottom:10px;margin-bottom:22px}
+    .filter-panel{background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border:var(--b-tb);border-radius:var(--r-lg);padding:12px 16px;box-shadow:0 12px 30px -10px rgba(30,27,75,.12);display:flex;flex-direction:column;gap:10px}
+    .search-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .search-input-box{position:relative;flex:1;min-width:200px;display:flex;align-items:center}
+    .search-input{width:100%;padding:10px 16px 10px 42px;border:var(--b-tb);border-radius:999px;background:var(--card-alt);font-size:.92rem;font-weight:700;color:var(--tinta);outline:none;transition:.15s}
+    .search-input:focus{background:var(--putih);border-color:var(--indigo);box-shadow:0 0 0 3px rgba(99,102,241,.2)}
+    .search-icon{position:absolute;left:14px;pointer-events:none;font-size:1rem;opacity:.5}
+    .search-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+    .filter-count-badge{display:inline-grid;place-items:center;background:var(--rose);color:#fff;font-size:.7rem;width:18px;height:18px;border-radius:50%;margin-left:2px;font-family:sans-serif;font-weight:900}
+    .kategori-baris,.filter-baris{display:flex;align-items:center;gap:10px}
+    .filter-expand-box{display:none;flex-direction:column;gap:10px;padding-top:10px;border-top:2px dashed rgba(30,27,75,.15);animation:fadeIn .18s ease-out}
+    .filter-expand-box.terbuka{display:flex}
+    .filter-label{font-weight:800;font-size:.75rem;color:var(--tinta-soft);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;min-width:62px}
+    .chips-group{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}.chips-group::-webkit-scrollbar{display:none}
+    .chip{padding:5px 14px;border-radius:999px;border:2px solid var(--tinta);background:var(--card-alt);font-size:.8rem;font-weight:800;white-space:nowrap;transition:.12s;box-shadow:0 2px 0 var(--tinta)}
+    .chip:hover{transform:translateY(-1px)}.chip.aktif{background:var(--tinta);color:var(--putih);transform:translateY(1px);box-shadow:none}
+    .chip.chip-fase.aktif{background:var(--indigo);border-color:var(--tinta);color:var(--putih)}
+    .chip.chip-mapel.aktif{background:var(--teal);border-color:var(--tinta);color:var(--putih)}
+    .reset-filter-btn{align-self:flex-start;font-size:.76rem;font-weight:800;color:var(--rose);text-decoration:underline;cursor:pointer;padding:2px 4px;margin-top:-2px}
+    .sorotan-box{margin-bottom:30px;display:none}.sorotan-box.tampil{display:block}
+    .sorotan-card{background:linear-gradient(135deg,#EEF2FF 0%,#E0E7FF 50%,#DDD6FE 100%);border:3px solid var(--tinta);border-radius:var(--r-lg);padding:18px;box-shadow:var(--sh-lg);display:grid;grid-template-columns:minmax(260px,42%) 1fr;gap:20px;align-items:center}
+    @media(max-width:768px){.sorotan-card{grid-template-columns:1fr}}
+    .sorotan-img-box{aspect-ratio:16/9;border:var(--b-tb);border-radius:var(--r-md);overflow:hidden;background:var(--putih);box-shadow:var(--sh-md)}
+    .sorotan-img-box img{width:100%;height:100%;object-fit:cover}
+    .sorotan-detail{display:flex;flex-direction:column;gap:8px}
+    .badge-sorotan{align-self:flex-start;background:var(--rose);color:var(--putih);padding:4px 12px;border:2px solid var(--tinta);border-radius:999px;font-family:'Baloo 2',cursive;font-size:.82rem;transform:rotate(-1.5deg);box-shadow:var(--sh-sm)}
+    .game-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));gap:20px;margin-bottom:40px}
+    .kartu{background:var(--putih);border:var(--b-tb);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh-md);display:flex;flex-direction:column;transition:.2s cubic-bezier(.34,1.4,.64,1)}
+    .kartu:hover{transform:translateY(-6px);box-shadow:var(--sh-lg)}
+    .kartu-thumb{aspect-ratio:16/9;border-bottom:var(--b-tb);overflow:hidden;background:var(--card-alt);position:relative}
+    .kartu-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}.kartu:hover .kartu-thumb img{transform:scale(1.05)}
+    .badge-counter{position:absolute;bottom:8px;right:8px;background:rgba(30,27,75,.88);color:#fff;font-size:.72rem;font-weight:800;padding:3px 9px;border-radius:999px;border:1.5px solid var(--putih)}
+    .badge-counter.baru{background:var(--emerald)}
+    .kartu-isi{padding:14px;display:flex;flex-direction:column;flex:1;gap:6px}
+    .kartu-tags-wrapper{display:flex;gap:5px;flex-wrap:wrap}
+    .kartu-tag{display:inline-block;background:var(--card-alt);border:1.8px solid var(--tinta);border-radius:999px;padding:2px 8px;font-size:.68rem;font-weight:800;color:var(--tinta);text-transform:uppercase}
+    .kartu-tag.tag-kat{background:#FEF3C7;color:#92400E;border-color:rgba(245,158,11,.5)}
+    .kartu-tag.tag-fase{background:#EDE9FE;color:#5B21B6;border-color:rgba(99,102,241,.4)}
+    .kartu-tag.tag-mapel{background:#CFFAFE;color:#155E75;border-color:rgba(6,182,212,.5)}
+    .kartu-judul{font-size:1.15rem;line-height:1.25;color:var(--tinta)}
+    .kartu-meta{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-top:4px}
+    .kartu-creator-wrap{display:flex;flex-direction:column;min-width:0;line-height:1.3}
+    .kartu-creator-nama{font-size:.8rem;font-weight:700;color:var(--tinta-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .kartu-creator-nama b{color:var(--tinta)}
+    .kartu-creator-sekolah{font-size:.74rem;font-weight:800;color:var(--teal);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .kartu-counter-teks{font-size:.74rem;font-weight:800;color:var(--tinta-soft);display:inline-flex;align-items:center;gap:3px;flex-shrink:0;background:var(--card-alt);padding:3px 8px;border-radius:999px;border:1px solid rgba(30,27,75,.12);margin-top:2px}
+    .kartu-aksi{margin-top:auto;padding-top:10px;display:flex;flex-direction:column;gap:6px}
+    .kartu-sub-aksi{display:flex;gap:6px}
+    .kartu-sub-aksi .btn{flex:1;padding:4px 8px;font-size:.75rem}
+    .empty-state{grid-column:1/-1;text-align:center;padding:60px 10px}.empty-state .icon{font-size:3.5rem;margin-bottom:10px}
+    .online-indicator-bar{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:12px;font-size:.85rem;font-weight:800;color:var(--tinta)}
+    .online-ping{width:10px;height:10px;border-radius:50%;background:var(--emerald);box-shadow:0 0 0 3px rgba(16,185,129,.3);animation:denyut 1.8s infinite}
+    @keyframes denyut{0%{box-shadow:0 0 0 2px rgba(16,185,129,.4)}50%{box-shadow:0 0 0 6px rgba(16,185,129,0)}100%{box-shadow:0 0 0 2px rgba(16,185,129,.4)}}
+    .chat-section{margin:20px auto 30px;background:var(--putih);border:var(--b-tb);border-radius:var(--r-lg);padding:22px;box-shadow:var(--sh-md)}
+    .chat-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;border-bottom:2px dashed rgba(30,27,75,.15);padding-bottom:12px}
+    .chat-list{display:flex;flex-direction:column;gap:12px;max-height:420px;overflow-y:auto;padding-right:6px}
+    .chat-item{background:var(--bg);border:2px solid var(--tinta);border-radius:var(--r-md);padding:12px 14px}
+    .chat-meta{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
+    .chat-nama{font-weight:800;font-size:.88rem;color:var(--indigo)}
+    .chat-waktu{font-size:.7rem;font-weight:700;color:var(--tinta-soft)}
+    .chat-pesan{font-size:.88rem;font-weight:700;color:var(--tinta);line-height:1.5;white-space:pre-wrap}
+    .chat-balas-btn{margin-top:6px;font-size:.74rem;font-weight:800;color:var(--teal);cursor:pointer;display:inline-block}
+    .chat-replies{margin-top:10px;padding-left:14px;border-left:3px solid var(--indigo);display:flex;flex-direction:column;gap:8px}
+    .chat-reply-item{background:var(--putih);border:1.5px solid var(--tinta);border-radius:var(--r-sm);padding:8px 12px}
+    .form-kirim-chat{margin-top:18px;display:flex;flex-direction:column;gap:10px;background:var(--card-alt);padding:14px;border-radius:var(--r-md);border:2px solid var(--tinta)}
+    .galeri-section{margin:10px auto 34px;background:linear-gradient(135deg, #FFF 0%, #F8FAFC 100%);border:var(--b-tb);border-radius:var(--r-lg);padding:24px;box-shadow:var(--sh-md)}
+    .galeri-header-badge{display:inline-block;background:var(--amber);color:var(--tinta);font-weight:800;font-size:.72rem;padding:3px 10px;border-radius:999px;border:1.5px solid var(--tinta);margin-bottom:6px}
+    .galeri-scroll{display:flex;gap:16px;overflow-x:auto;padding:8px 4px 16px;scroll-snap-type:x mandatory}
+    .galeri-scroll::-webkit-scrollbar{height:8px}
+    .galeri-scroll::-webkit-scrollbar-track{background:var(--card-alt);border-radius:999px}
+    .galeri-scroll::-webkit-scrollbar-thumb{background:var(--indigo);border-radius:999px}
+    .galeri-item{flex:0 0 250px;scroll-snap-align:start;border:2.5px solid var(--tinta);border-radius:var(--r-md);overflow:hidden;background:#FFF;cursor:zoom-in;transition:.22s cubic-bezier(0.34, 1.56, 0.64, 1);box-shadow:var(--sh-sm);position:relative}
+    .galeri-item:hover{transform:translateY(-6px) rotate(0.5deg);box-shadow:var(--sh-md)}
+    .galeri-item-thumb{width:100%;aspect-ratio:4/3;overflow:hidden;background:var(--card-alt);position:relative}
+    .galeri-item img{width:100%;height:100%;object-fit:cover;display:block;transition:.35s ease}
+    .galeri-item:hover img{transform:scale(1.06)}
+    .galeri-zoom-badge{position:absolute;top:8px;right:8px;background:rgba(30,27,75,.85);color:#FFF;font-size:.7rem;font-weight:800;padding:2px 8px;border-radius:999px;backdrop-filter:blur(4px)}
+    .galeri-info{padding:10px 12px;border-top:2px solid var(--tinta);background:#FFF}
+    .galeri-info b{display:block;font-size:.85rem;font-family:'Baloo 2',cursive;color:var(--tinta);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .galeri-info small{display:block;font-size:.72rem;font-weight:700;color:var(--tinta-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .bottom-info-bar{margin:10px auto 40px;display:flex;flex-direction:column;align-items:center;gap:16px}
+    .stats-counter-box{display:inline-flex;align-items:center;gap:20px;background:var(--putih);border:var(--b-tb);border-radius:var(--r-md);padding:10px 24px;box-shadow:var(--sh-md)}
+    .stat-unit{text-align:center}
+    .stat-unit b{font-family:'Baloo 2',cursive;font-size:1.4rem;color:var(--tinta);line-height:1;display:block}
+    .stat-unit small{font-size:.7rem;font-weight:800;color:var(--tinta-soft);text-transform:uppercase}
+    .stat-sep{width:2px;height:28px;background:rgba(30,27,75,.15)}
+    .footer{margin-top:auto;background:var(--card-alt);border-top:var(--b-tb);padding:24px 0;position:relative;text-align:center}
+    .footer p{font-weight:700;font-size:.85rem;color:var(--tinta-soft)}.footer b{color:var(--tinta)}
+    .titik-rahasia{position:absolute;right:12px;bottom:12px;width:28px;height:28px;border-radius:50%;cursor:default;display:grid;place-items:center;user-select:none;touch-action:none}
+    .titik-rahasia::after{content:'';width:6px;height:6px;border-radius:50%;background:var(--tinta);opacity:.12;transition:.3s}
+    .titik-rahasia.tekan::after{opacity:.6;transform:scale(2.8);background:var(--amber)}
+    .titik-rahasia.sukses::after{opacity:1;transform:scale(3.5);background:var(--emerald)}
+    .overlay{position:fixed;inset:0;background:rgba(30,27,75,.65);backdrop-filter:blur(4px);z-index:100;display:none;place-items:center;padding:16px;overflow-y:auto}
+    .overlay.buka{display:grid;animation:fadeIn .18s ease-out}
+    .modal-box{background:var(--putih);border:3px solid var(--tinta);border-radius:var(--r-lg);width:min(680px,100%);box-shadow:0 16px 36px rgba(0,0,0,.25);overflow:hidden;display:flex;flex-direction:column;animation:popIn .22s cubic-bezier(.34,1.56,.64,1)}
+    .modal-box.modal-sm{width:min(420px,100%)}
+    .modal-box.modal-lg{width:min(760px,100%)}
+    .modal-header{padding:14px 20px;background:var(--card-alt);border-bottom:var(--b-tb);display:flex;align-items:center;justify-content:space-between}
+    .modal-body{padding:20px;max-height:80vh;overflow-y:auto}
+    .field-group{margin-bottom:14px}
+    .field-group label{display:block;font-weight:800;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--tinta-soft);margin-bottom:6px}
+    .field-group input,.field-group textarea,.field-group select{width:100%;padding:10px 14px;border:2px solid var(--tinta);border-radius:var(--r-sm);background:var(--bg);font-weight:700;color:var(--tinta);outline:none}
+    .field-group input:focus,.field-group textarea:focus,.field-group select:focus{border-color:var(--indigo);background:#FFF}
+    .field-group .bantuan{font-size:.72rem;font-weight:700;color:var(--tinta-soft);margin-top:4px}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media(max-width:540px){.grid-2{grid-template-columns:1fr}}
+    .checkbox-row{display:flex;align-items:center;gap:10px;margin-top:10px;font-weight:800;font-size:.85rem;cursor:pointer}
+    .checkbox-row input{width:18px;height:18px;accent-color:var(--indigo)}
+    .admin-nav{display:flex;gap:6px;background:var(--card-alt);padding:5px;border:var(--b-tb);border-radius:999px;margin-bottom:18px}
+    .admin-nav button{flex:1;padding:8px 8px;border-radius:999px;font-family:'Baloo 2',cursive;font-weight:700;font-size:.9rem;transition:.15s}
+    .admin-nav button.aktif{background:var(--tinta);color:var(--putih)}
+    .admin-list-item{background:var(--bg);border:2px solid var(--tinta);border-radius:var(--r-md);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;box-shadow:var(--sh-sm)}
+    .admin-list-info{flex:1;min-width:0}
+    .admin-list-info b{display:block;font-family:'Baloo 2',cursive;font-size:1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .admin-list-info small{font-size:.75rem;color:var(--tinta-soft);font-weight:700}
+    .admin-actions{display:flex;align-items:center;gap:6px}
+    .video-container{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border:2px solid var(--tinta);border-radius:var(--r-md);background:#000}
+    .video-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+    .sosmed-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:6px 0}
+    .sosmed-link{padding:6px 14px;border:2px solid var(--tinta);border-radius:999px;font-size:.8rem;font-weight:800;text-decoration:none;background:var(--bg);color:var(--tinta);box-shadow:var(--sh-sm);transition:.12s}
+    .sosmed-link:hover{transform:translateY(-1px)}
+    #wadahAdsense{margin:18px auto;text-align:center;overflow:hidden;display:none}
+    .toast-box{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:200;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+    .toast{background:var(--tinta);color:var(--putih);padding:10px 20px;border-radius:999px;border:2px solid var(--putih);font-weight:800;font-size:.88rem;box-shadow:0 8px 20px rgba(0,0,0,.3);animation:popIn .25s cubic-bezier(.34,1.56,.64,1)}
+    @keyframes popIn{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  </style>
+</head>
+<body oncontextmenu="return false;">
+  <header class="header">
+    <div class="bungkus header-isi">
+      <div class="merek"><div class="logo-ikon">🎮</div><div class="merek-teks"><b>Game Interaktif</b><span>Belajar sambil bermain</span></div></div>
+      <div class="nav-actions"><button class="btn-icon" id="btnSuara" title="Suara Efek (On/Off)">🔊</button><button class="btn-icon" id="btnLayar" title="Layar Penuh">⛶</button></div>
+    </div>
+  </header>
+  
+  <section class="bungkus hero">
+    <div class="hero-badge"><span class="titik"></span><span>Koleksi Pembelajaran Mandiri & Kelas</span></div>
+    <h1 class="hero-judul">Eksplorasi Game <span class="highlight">Edukatif</span></h1>
+    <p class="hero-sub">Mainkan puluhan media dan game edukatif yang bisa dimainkan langsung di Papan Interaktif Digital maupun browsermu.</p>
+  </section>
+
+  <!-- GAME TERSEDIA & TOMBOL PENGEMBANG DI BAWAHNYA SECARA TERPUSAT -->
+  <section class="bungkus top-meta-stack">
+    <div class="game-count-pill"><span>🎮 Game Tersedia:</span><b id="topTotalGameStat">0 Pilihan</b></div>
+    <button class="btn btn-sm btn-teal" onclick="bukaModalPengembang()"><span>👨‍🏫 Tentang Pengembang</span></button>
+  </section>
+  
+  <section class="bungkus sorotan-box" id="wadahSorotan"></section>
+  
+  <section class="bungkus filter-wrapper-sticky">
+    <div class="filter-panel">
+      <div class="search-row">
+        <div class="search-input-box"><span class="search-icon">🔍</span><input type="search" id="kotakCari" class="search-input" placeholder="Cari materi game, nama creator, atau kata kunci..."></div>
+        <div class="search-actions">
+          <button class="btn btn-sm btn-emerald" onclick="bukaModalAjukan()" title="Ajukan Game / MPI Anda"><span>➕ Ajukan Karya</span></button>
+          <button class="btn btn-sm btn-putih" id="btnBukaFilter" title="Buka Filter Fase & Mapel"><span>⚙️ Filter</span><span class="filter-count-badge" id="badgeTotalFilter" style="display:none">0</span></button>
+          <button class="btn btn-sm btn-amber" id="btnSort" title="Ubah Urutan Tampil"><span id="labelSort">🔥 Terpopuler</span></button>
+        </div>
+      </div>
+      <div class="kategori-baris"><span class="filter-label">Kategori</span><div class="chips-group" id="wadahKategori"></div></div>
+      <div class="filter-expand-box" id="boxPilihanFilter">
+        <div class="filter-baris"><span class="filter-label">Fase</span><div class="chips-group" id="wadahFase"></div></div>
+        <div class="filter-baris"><span class="filter-label">Mapel</span><div class="chips-group" id="wadahMapel"></div></div>
+        <button class="reset-filter-btn" id="btnResetFilter" style="display:none" onclick="resetSemuaFilter()">✕ Hapus Semua Filter</button>
+      </div>
+    </div>
+  </section>
+  
+  <main class="bungkus"><div class="game-grid" id="gridGame"></div></main>
+  <div class="bungkus" id="wadahAdsense"></div>
+
+  <section class="bungkus chat-section">
+    <div class="online-indicator-bar"><span class="online-ping"></span><span>Sedang online membuka portal ini: <b id="statOnlineUsers" style="color:var(--emerald)">1</b> orang</span></div>
+    <div class="chat-header">
+      <div>
+        <h3 style="font-size:1.35rem">💬 Pojok Diskusi & Sapa Sahabat</h3>
+        <p style="font-size:.8rem;font-weight:700;color:var(--tinta-soft)">Beri tanggapan, usulkan game baru, atau sapa sahabat guru dan siswa.</p>
+      </div>
+      <button class="btn btn-sm btn-putih" onclick="initData()" title="Muat Ulang Pesan">🔄 Segarkan</button>
+    </div>
+    <div class="chat-list" id="wadahDaftarChat"><p style="text-align:center;color:var(--tinta-soft);padding:14px;font-weight:700">Memuat obrolan terbaru...</p></div>
+    <form class="form-kirim-chat" id="formKirimChat">
+      <input type="hidden" id="chatParentId" value="">
+      <div id="boxInfoBalas" style="display:none;background:var(--card-alt);padding:6px 12px;border-radius:var(--r-sm);border:1.5px solid var(--tinta);font-size:.8rem;font-weight:800;justify-content:space-between;align-items:center">
+        <span id="labelBalasPesan" style="color:var(--indigo)">Membalas pesan...</span><button type="button" onclick="batalBalasChat()" style="color:var(--rose);font-weight:900">✕ Batal</button>
+      </div>
+      <div class="grid-2">
+        <input type="text" id="chatNama" required placeholder="Nama Anda (Guru / Siswa)" style="padding:8px 12px;border:2px solid var(--tinta);border-radius:var(--r-sm);background:#fff;font-weight:700">
+        <button type="submit" class="btn btn-utama" id="btnKirimChat">Kirim Pesan 🚀</button>
+      </div>
+      <textarea id="chatPesan" required rows="2" placeholder="Tuliskan ide, masukan, atau sapaan di sini..." style="padding:8px 12px;border:2px solid var(--tinta);border-radius:var(--r-sm);background:#fff;font-weight:700"></textarea>
+    </form>
+  </section>
+
+  <!-- GALERI AKTIVITAS -->
+  <section class="bungkus galeri-section" id="wadahSectionGaleri" style="display:none">
+    <div style="margin-bottom:14px">
+      <span class="galeri-header-badge">DOKUMENTASI KELAS</span>
+      <h3 style="font-size:1.35rem">📸 Galeri Aktivitas</h3>
+      <p style="font-size:.8rem;font-weight:700;color:var(--tinta-soft)">Dokumentasi pembelajaran interaktif di sekolah. Geser dan klik foto untuk memperbesar tampilan.</p>
+    </div>
+    <div class="galeri-scroll" id="wadahDaftarGaleri"></div>
+  </section>
+
+  <section class="bungkus bottom-info-bar">
+    <div class="stats-counter-box">
+      <div class="stat-unit"><b id="statTotalPengunjung">0</b><small>Total Pengunjung</small></div>
+      <div class="stat-sep"></div>
+      <div class="stat-unit"><b id="statTotalKlikGame">0</b><small>Total Dimainkan</small></div>
+    </div>
+  </section>
+  
+  <footer class="footer">
+    <div class="bungkus"><p>© 2026 <b>Game Interaktif</b>. Dibuat dengan penuh dedikasi oleh <b>Tretan Jamal</b>.</p></div>
+    <div class="titik-rahasia" id="titikRahasia" title="Portal" aria-hidden="true"></div>
+  </footer>
+  <div class="toast-box" id="wadahToast"></div>
+
+  <div class="overlay" id="modalZoom" onclick="tutupModal('modalZoom')">
+    <div class="modal-box modal-lg" style="background:transparent;border:none;box-shadow:none;text-align:center" onclick="event.stopPropagation()">
+      <img id="imgZoomDetail" src="" alt="Zoom Foto" style="max-width:95vw;max-height:80vh;border-radius:var(--r-md);border:3px solid #FFF;box-shadow:var(--sh-lg);object-fit:contain">
+      <p id="captionZoomDetail" style="margin-top:10px;color:#FFF;font-weight:800;font-size:1rem;text-shadow:0 2px 4px rgba(0,0,0,.8)"></p>
+    </div>
+  </div>
+
+  <div class="overlay" id="modalPengembang">
+    <div class="modal-box modal-sm" style="text-align:center">
+      <div class="modal-header"><h3>👨‍🏫 Profil Pengembang</h3><button class="btn btn-sm btn-putih" onclick="tutupModal('modalPengembang')">✕</button></div>
+      <div class="modal-body" style="display:flex;flex-direction:column;align-items:center;gap:12px">
+        <img id="devFoto" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400" alt="Foto Pengembang" style="width:110px;height:110px;border-radius:50%;object-fit:cover;border:3px solid var(--tinta);box-shadow:var(--sh-md)">
+        <h4 id="devNama" style="font-size:1.35rem;color:var(--tinta)">Jamaluddin (Tretan Jamal)</h4>
+        <p id="devBio" style="font-size:.88rem;font-weight:700;color:var(--tinta-soft);line-height:1.5"></p>
+        <div class="sosmed-row" id="wadahSosmedDev"></div>
+        <a class="btn btn-amber" id="devModalSaweriaBtn" href="https://saweria.co" target="_blank" rel="noopener noreferrer" style="width:100%;margin-top:8px">Apresiasi Pengembang</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="modalVideo">
+    <div class="modal-box modal-lg">
+      <div class="modal-header"><h3 id="judulModalVideo">📺 Tutorial Game</h3><button class="btn btn-sm btn-putih" onclick="tutupModalVideo()">✕</button></div>
+      <div class="modal-body"><div class="video-container" id="wadahIframeVideo"></div></div>
+    </div>
+  </div>
+
+  <div class="overlay" id="modalTujuan">
+    <div class="modal-box modal-sm">
+      <div class="modal-header"><h3>🎯 Tujuan Pembelajaran</h3><button class="btn btn-sm btn-putih" onclick="tutupModal('modalTujuan')">✕</button></div>
+      <div class="modal-body" style="display:flex;flex-direction:column;gap:12px">
+        <h4 id="tujuanJudulGame" style="font-size:1.2rem;color:var(--indigo)"></h4>
+        <div style="display:flex;gap:6px"><span class="kartu-tag tag-fase" id="tujuanFase"></span><span class="kartu-tag tag-mapel" id="tujuanMapel"></span></div>
+        <div style="background:var(--bg);padding:14px;border:2px solid var(--tinta);border-radius:var(--r-sm)">
+          <label style="display:block;font-size:.75rem;font-weight:800;color:var(--tinta-soft);text-transform:uppercase;margin-bottom:4px">Capaian & Tujuan:</label>
+          <p id="tujuanIsiTeks" style="font-size:.9rem;font-weight:700;line-height:1.5;white-space:pre-wrap"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="modalAjukan">
+    <div class="modal-box">
+      <div class="modal-header"><h3>🚀 Ajukan Game / Media Pembelajaran</h3><button class="btn btn-sm btn-putih" onclick="tutupModal('modalAjukan')">✕</button></div>
+      <form id="formAjukanKarya" class="modal-body">
+        <p style="font-size:.82rem;font-weight:700;color:var(--tinta-soft);margin-bottom:14px">Karya Anda akan ditinjau admin sebelum diterbitkan di portal ini.</p>
+        <div class="field-group"><label>Judul Permainan / MPI *</label><input type="text" id="ajukanJudul" required placeholder="Contoh: Kuis Cerdas Satuan Panjang"></div>
+        <div class="grid-2">
+          <div class="field-group">
+            <label>Fase Kurikulum *</label>
+            <select id="ajukanFase" required>
+              <option value="Fase Fondasi">Fase Fondasi (PAUD/TK)</option><option value="Fase A">Fase A (Kelas 1–2 SD)</option>
+              <option value="Fase B">Fase B (Kelas 3–4 SD)</option><option value="Fase C">Fase C (Kelas 5–6 SD)</option>
+              <option value="Fase D">Fase D (Kelas 7–9 SMP)</option><option value="Fase E">Fase E (Kelas 10 SMA)</option><option value="Umum">Umum / Semua Fase</option>
+            </select>
+          </div>
+          <div class="field-group"><label>Mata Pelajaran (Mapel) *</label><input type="text" id="ajukanMapel" required placeholder="Contoh: IPA / Matematika"></div>
+        </div>
+        <div class="grid-2">
+          <div class="field-group"><label>Nama Pembuat (Creator) *</label><input type="text" id="ajukanCreator" required placeholder="Nama Lengkap & Gelar"></div>
+          <div class="field-group"><label>Nama Sekolah / Instansi *</label><input type="text" id="ajukanSekolah" required placeholder="Contoh: SMPN 2 Robatal"></div>
+        </div>
+        <div class="field-group"><label>Nomor WhatsApp / Email Kontak *</label><input type="text" id="ajukanKontak" required placeholder="Untuk konfirmasi status kurasi"></div>
+        <div class="grid-2">
+          <div class="field-group"><label>URL Game Eksternal *</label><input type="url" id="ajukanUrl" required placeholder="https://wordwall.net/... atau link web"></div>
+          <div class="field-group"><label>URL Video YouTube (Tutorial)</label><input type="url" id="ajukanVideo" placeholder="https://youtube.com/watch?v=..."></div>
+        </div>
+        <div class="field-group"><label>URL Gambar Thumbnail *</label><input type="url" id="ajukanThumb" required placeholder="Link gambar poster (16:9)"></div>
+        <div class="field-group"><label>Tujuan Pembelajaran (TP)</label><textarea id="ajukanTujuan" rows="2" placeholder="Tuliskan tujuan pembelajaran spesifik game ini..."></textarea></div>
+        <div class="field-group"><label>Deskripsi Singkat</label><textarea id="ajukanDeskripsi" rows="2" placeholder="Penjelasan cara bermain ringkas..."></textarea></div>
+        <button type="submit" class="btn btn-utama" style="width:100%;margin-top:8px" id="btnKirimAjukan">Kirim Pengajuan</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="overlay" id="modalLogin">
+    <div class="modal-box modal-sm">
+      <div class="modal-header"><h3>🔒 Verifikasi Admin</h3><button class="btn btn-sm btn-putih" onclick="tutupModal('modalLogin')">✕</button></div>
+      <form id="formLogin" class="modal-body">
+        <div class="field-group"><label>Kata Sandi Akses</label><input type="password" id="inputSandi" required placeholder="Ketik kata sandi..." autocomplete="current-password"><div class="bantuan">Default sandi lokal: <b>admin123</b></div></div>
+        <button type="submit" class="btn btn-utama" style="width:100%;margin-top:8px">Buka Panel Admin</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="overlay" id="modalAdmin">
+    <div class="modal-box">
+      <div class="modal-header"><h3>🛠️ Panel Kelola Portal</h3><button class="btn btn-sm btn-putih" onclick="tutupModal('modalAdmin')">✕</button></div>
+      <div class="modal-body">
+        <div class="admin-nav">
+          <button id="tabBtnForm" class="aktif" onclick="pindahTabAdmin('form')">Tambah Game</button>
+          <button id="tabBtnKelola" onclick="pindahTabAdmin('kelola')">Daftar Game</button>
+          <button id="tabBtnGaleri" onclick="pindahTabAdmin('galeri')">Kelola Galeri</button>
+        </div>
+        <form id="formGameAdmin">
+          <input type="hidden" id="editGameId">
+          <div class="field-group"><label>Judul Permainan *</label><input type="text" id="inJudul" required placeholder="Contoh: Petualangan Angka Pintar"></div>
+          <div class="grid-2">
+            <div class="field-group"><label>Kategori Utama *</label><input type="text" id="inKategori" required placeholder="Matematika / Sains / Bahasa / Logika"></div>
+            <div class="field-group">
+              <label>Fase Kurikulum *</label>
+              <select id="inFase" required>
+                <option value="Fase Fondasi">Fase Fondasi (PAUD/TK)</option><option value="Fase A">Fase A (Kelas 1–2 SD)</option>
+                <option value="Fase B">Fase B (Kelas 3–4 SD)</option><option value="Fase C">Fase C (Kelas 5–6 SD)</option>
+                <option value="Fase D">Fase D (Kelas 7–9 SMP)</option><option value="Fase E">Fase E (Kelas 10 SMA)</option><option value="Umum">Umum / Semua Fase</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="field-group"><label>Mata Pelajaran (Mapel) *</label><input type="text" id="inMapel" required placeholder="Matematika / IPA / Bhs Inggris" list="listRekomendasiMapel"><datalist id="listRekomendasiMapel"><option value="Matematika"><option value="IPA / Sains"><option value="Bahasa Indonesia"><option value="Bahasa Inggris"><option value="IPS"><option value="Informatika"><option value="Pancasila"></datalist></div>
+            <div class="field-group"><label>Nama Pembuat (Creator) *</label><input type="text" id="inCreator" required placeholder="Nama Guru / Pengembang"></div>
+          </div>
+          <div class="field-group"><label>Nama Sekolah / Instansi *</label><input type="text" id="inSekolah" required placeholder="Contoh: SMPN 2 Robatal"></div>
+          <div class="grid-2">
+            <div class="field-group"><label>URL Permainan Eksternal *</label><input type="url" id="inUrl" required placeholder="https://wordwall.net/... atau itch.io"></div>
+            <div class="field-group"><label>URL Video YouTube (Tutorial)</label><input type="url" id="inVideo" placeholder="https://www.youtube.com/watch?v=..."></div>
+          </div>
+          <div class="field-group"><label>URL Gambar Thumbnail *</label><input type="url" id="inThumb" required placeholder="https://images.unsplash.com/..."></div>
+          <div class="field-group"><label>Tujuan Pembelajaran (TP)</label><textarea id="inTujuan" rows="2" placeholder="Tuliskan tujuan pembelajaran spesifik game ini..."></textarea></div>
+          <div class="field-group"><label>Deskripsi Singkat</label><textarea id="inDeskripsi" rows="2" placeholder="Jelaskan ringkas apa yang dipelajari anak di game ini..."></textarea></div>
+          <div class="checkbox-row"><input type="checkbox" id="inSorotan"><label for="inSorotan">Jadikan Game Sorotan di Banner Atas (Featured)</label></div>
+          <div class="checkbox-row"><input type="checkbox" id="inSembunyi"><label for="inSembunyi">Sembunyikan dari Tampilan Siswa (Draft)</label></div>
+          <div style="display:flex;gap:10px;margin-top:18px"><button type="submit" class="btn btn-utama" style="flex:1" id="btnSimpanGame">Simpan Game</button><button type="button" class="btn btn-putih" onclick="bersihkanFormAdmin()">Reset</button></div>
+        </form>
+        <div id="panelDaftarAdmin" style="display:none">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><span style="font-weight:800;font-size:.85rem;color:var(--tinta-soft)">CADANGAN DATA</span><button class="btn btn-sm btn-teal" onclick="unduhBackupJson()">⬇ Unduh games.json</button></div>
+          <div id="listGameAdmin"></div>
+        </div>
+        <div id="panelGaleriAdmin" style="display:none">
+          <form id="formTambahGaleri" style="background:var(--bg);padding:14px;border:2px solid var(--tinta);border-radius:var(--r-md);margin-bottom:18px">
+            <h4 style="font-size:1rem;margin-bottom:10px;color:var(--indigo)">➕ Tambah Dokumentasi Galeri Baru</h4>
+            <div class="field-group"><label>Judul Kegiatan / Foto *</label><input type="text" id="inGaleriJudul" required placeholder="Contoh: Belajar Pecahan di Papan Interaktif"></div>
+            <div class="field-group"><label>URL Foto / Gambar *</label><input type="url" id="inGaleriUrl" required placeholder="https://images.unsplash.com/... atau link foto"></div>
+            <div class="field-group"><label>Deskripsi Singkat Foto</label><input type="text" id="inGaleriDeskripsi" placeholder="Contoh: Siswa kelas 7 antusias mencoba game kuis"></div>
+            <button type="submit" class="btn btn-sm btn-utama" style="width:100%" id="btnSimpanGaleri">Simpan ke Galeri 📸</button>
+          </form>
+          <h4 style="font-size:1rem;margin-bottom:10px">Daftar Foto Saat Ini</h4>
+          <div id="listGaleriAdmin"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = 'https://script.google.com/macros/s/AKfycbyBkxFdZ7KVmzF4JKuSaGXk3I1KlHbdzoQKY03E50STsBjU8dFqGcbxAJJsy8rtNBKYmw/exec';
+    const PASS_DEFAULT = 'admin123', STORAGE_KEY = 'eduplay_games_data_v1';
+
+    let GAMES = [], KOMENTAR = [], GALERI = [];
+    let SETTINGS = {
+      nama_pengembang: "Jamaluddin (Tretan Jamal)",
+      bio_pengembang: "Guru & Pengembang Media Pembelajaran Interaktif.",
+      foto_pengembang: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400",
+      link_saweria: "https://saweria.co",
+      sosmed_instagram: "", sosmed_youtube: "", sosmed_portofolio: "", adsense_code: "", total_pengunjung: 0
+    };
+
+    let kategoriTerpilih = 'Semua', faseTerpilih = 'Semua', mapelTerpilih = 'Semua', modeSort = 'populer', kataKunci = '', panelFilterTerbuka = false;
+
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    window.addEventListener('keydown', e => {
+      const k = e.key.toUpperCase(), ctrl = e.ctrlKey || e.metaKey;
+      if (ctrl && e.shiftKey && k === 'M') { e.preventDefault(); bukaModalLogin(); return; }
+      if (e.key === 'F12' || (ctrl && (k === 'U' || k === 'S' || k === 'P')) || (ctrl && e.shiftKey && (k === 'I' || k === 'J' || k === 'C'))) {
+        e.preventDefault(); tampilkanToast('Aksi ini dilindungi hak cipta.'); return false;
+      }
+    });
+
+    async function initData() {
+      if (!sessionStorage.getItem('eduplay_visited')) {
+        sessionStorage.setItem('eduplay_visited', 'true');
+        sinkronisasiKeBackend({ action: 'visit' });
+      }
+      const d = localStorage.getItem(STORAGE_KEY);
+      if (d) { try { GAMES = JSON.parse(d); renderSemua(); } catch(e) {} }
+
+      if (API_URL) {
+        try {
+          const r = await fetch(API_URL), j = await r.json();
+          if (j.ok) {
+            if (Array.isArray(j.data) && j.data.length) {
+              GAMES = j.data.map(g => ({ ...g, kategori: g.kategori || g.mapel || 'Umum', fase: g.fase || 'Umum', mapel: g.mapel || g.kategori || 'Umum', sekolah: g.sekolah || 'Sekolah Penggerak', waktu: g.waktu || Date.now() }));
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(GAMES));
+            }
+            if (Array.isArray(j.komentar)) KOMENTAR = j.komentar;
+            if (Array.isArray(j.galeri)) { GALERI = j.galeri; renderGaleri(); renderAdminGaleriList(); }
+            if (j.online) document.getElementById('statOnlineUsers').textContent = j.online;
+            if (j.settings) { SETTINGS = Object.assign(SETTINGS, j.settings); pasangDataPengaturan(); }
+            renderSemua(); renderObrolan();
+          }
+        } catch(e) { console.warn('Cache lokal aktif:', e); }
+      }
+    }
+
+    async function sinkronisasiKeBackend(p) {
+      if (!API_URL) return;
+      try { await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(p) }); } catch(e) {}
+    }
+
+    function pasangDataPengaturan() {
+      document.getElementById('statTotalPengunjung').textContent = Number(SETTINGS.total_pengunjung || 0).toLocaleString('id-ID');
+      document.getElementById('devNama').textContent = SETTINGS.nama_pengembang;
+      document.getElementById('devBio').textContent = SETTINGS.bio_pengembang;
+      if (SETTINGS.foto_pengembang) document.getElementById('devFoto').src = SETTINGS.foto_pengembang;
+      if (SETTINGS.link_saweria) document.getElementById('devModalSaweriaBtn').href = SETTINGS.link_saweria;
+
+      const wSosmed = document.getElementById('wadahSosmedDev');
+      let sosmedHTML = '';
+      if (SETTINGS.sosmed_instagram) sosmedHTML += `<a class="sosmed-link" href="${SETTINGS.sosmed_instagram}" target="_blank">📷 Instagram</a>`;
+      if (SETTINGS.sosmed_youtube) sosmedHTML += `<a class="sosmed-link" href="${SETTINGS.sosmed_youtube}" target="_blank">▶️ YouTube</a>`;
+      if (SETTINGS.sosmed_portofolio) sosmedHTML += `<a class="sosmed-link" href="${SETTINGS.sosmed_portofolio}" target="_blank">🌐 Portofolio</a>`;
+      wSosmed.innerHTML = sosmedHTML;
+
+      if (SETTINGS.adsense_code && SETTINGS.adsense_code.trim()) {
+        const wAds = document.getElementById('wadahAdsense');
+        wAds.innerHTML = SETTINGS.adsense_code;
+        wAds.style.display = 'block';
+      }
+    }
+
+    function renderGaleri() {
+      const sec = document.getElementById('wadahSectionGaleri'), w = document.getElementById('wadahDaftarGaleri');
+      if (!GALERI || !GALERI.length) { sec.style.display = 'none'; return; }
+      sec.style.display = 'block';
+      w.innerHTML = GALERI.map(item => `
+        <div class="galeri-item" onclick="bukaZoomFoto('${item.url}', '${item.judul || ''}')">
+          <div class="galeri-item-thumb">
+            <img src="${item.url}" alt="${item.judul || 'Foto Dokumentasi'}" loading="lazy">
+            <span class="galeri-zoom-badge">🔍 Zoom</span>
+          </div>
+          <div class="galeri-info">
+            <b>${item.judul || 'Dokumentasi Belajar'}</b>
+            <small>${item.deskripsi || 'Kegiatan Papan Interaktif'}</small>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function bukaZoomFoto(url, caption) {
+      document.getElementById('imgZoomDetail').src = url;
+      document.getElementById('captionZoomDetail').textContent = caption;
+      bukaModal('modalZoom');
+    }
+
+    const SoundEffects = (() => {
+      let c = null, a = localStorage.getItem('eduplay_sound') !== 'mati';
+      function i() { if (!c) c = new (window.AudioContext || window.webkitAudioContext)(); if (c.state === 'suspended') c.resume(); }
+      function n(f, d, t = 'sine', v = 0.15) {
+        if (!a) return;
+        try { i(); const o = c.createOscillator(), g = c.createGain(); o.type = t; o.frequency.setValueAtTime(f, c.currentTime); g.gain.setValueAtTime(v, c.currentTime); g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + d); o.connect(g); g.connect(c.destination); o.start(); o.stop(c.currentTime + d); } catch(e) {}
+      }
+      return {
+        get isAktif() { return a; },
+        toggle() { a = !a; localStorage.setItem('eduplay_sound', a ? 'nyala' : 'mati'); if (a) n(587.33, 0.12, 'triangle'); return a; },
+        klik: () => n(440, 0.08, 'triangle', 0.12),
+        sukses: () => { setTimeout(() => n(523.25, 0.1, 'sine', 0.15), 0); setTimeout(() => n(659.25, 0.1, 'sine', 0.15), 90); setTimeout(() => n(783.99, 0.2, 'sine', 0.18), 180); },
+        error: () => { n(220, 0.15, 'sawtooth', 0.15); setTimeout(() => n(180, 0.2, 'sawtooth', 0.15), 100); },
+        bukaGame: () => { n(330, 0.08, 'sine'); setTimeout(() => n(660, 0.18, 'triangle', 0.2), 80); }
+      };
+    })();
+
+    function renderSemua() { renderFilters(); renderSorotan(); renderGrid(); updateStatistik(); updateIndikatorFilter(); }
+    const btnBukaFilter = document.getElementById('btnBukaFilter'), boxPilihanFilter = document.getElementById('boxPilihanFilter');
+    btnBukaFilter.addEventListener('click', () => {
+      SoundEffects.klik(); panelFilterTerbuka = !panelFilterTerbuka;
+      boxPilihanFilter.classList.toggle('terbuka', panelFilterTerbuka);
+      btnBukaFilter.classList.toggle('btn-teal', panelFilterTerbuka);
+      btnBukaFilter.classList.toggle('btn-putih', !panelFilterTerbuka);
+    });
+
+    function renderFilters() {
+      const wK = document.getElementById('wadahKategori'), wF = document.getElementById('wadahFase'), wM = document.getElementById('wadahMapel'), gA = GAMES.filter(g => !g.sembunyi);
+      const dK = ['Semua', ...new Set(gA.map(g => g.kategori || 'Umum'))], dF = ['Semua', ...new Set(gA.map(g => g.fase || 'Umum'))], dM = ['Semua', ...new Set(gA.map(g => g.mapel || 'Umum'))];
+      wK.innerHTML = dK.map(k => `<button class="chip ${kategoriTerpilih === k ? 'aktif' : ''}" onclick="pilihKategori('${k}')">${k}</button>`).join('');
+      wF.innerHTML = dF.map(f => `<button class="chip chip-fase ${faseTerpilih === f ? 'aktif' : ''}" onclick="pilihFase('${f}')">${f}</button>`).join('');
+      wM.innerHTML = dM.map(m => `<button class="chip chip-mapel ${mapelTerpilih === m ? 'aktif' : ''}" onclick="pilihMapel('${m}')">${m}</button>`).join('');
+    }
+
+    function pilihKategori(k) { kategoriTerpilih = k; SoundEffects.klik(); renderFilters(); renderGrid(); updateIndikatorFilter(); }
+    function pilihFase(f) { faseTerpilih = f; SoundEffects.klik(); renderFilters(); renderGrid(); updateIndikatorFilter(); }
+    function pilihMapel(m) { mapelTerpilih = m; SoundEffects.klik(); renderFilters(); renderGrid(); updateIndikatorFilter(); }
+
+    function updateIndikatorFilter() {
+      const j = (faseTerpilih !== 'Semua' ? 1 : 0) + (mapelTerpilih !== 'Semua' ? 1 : 0);
+      const b = document.getElementById('badgeTotalFilter'), r = document.getElementById('btnResetFilter');
+      b.textContent = j; b.style.display = j ? 'inline-grid' : 'none'; r.style.display = j ? 'block' : 'none';
+    }
+
+    function resetSemuaFilter() {
+      kategoriTerpilih = faseTerpilih = mapelTerpilih = 'Semua';
+      SoundEffects.klik(); renderFilters(); renderGrid(); updateIndikatorFilter(); tampilkanToast('Semua filter direset ke awal.');
+    }
+
+    document.getElementById('btnSort').addEventListener('click', () => {
+      SoundEffects.klik(); modeSort = modeSort === 'populer' ? 'terbaru' : 'populer';
+      document.getElementById('labelSort').textContent = modeSort === 'populer' ? '🔥 Terpopuler' : '✨ Terbaru';
+      renderGrid(); tampilkanToast(modeSort === 'populer' ? 'Diurutkan: Paling sering dimainkan' : 'Diurutkan: Game terbaru');
+    });
+
+    function dapatkanIdYouTube(u) { const m = (u || '').match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/); return m ? m[1] : ''; }
+    function bukaTutorialVideo(id) {
+      const g = GAMES.find(x => x.id === id); if (!g || !g.video) { tampilkanToast('Tutorial video belum tersedia.'); return; }
+      const yId = dapatkanIdYouTube(g.video); if (!yId) { tampilkanToast('Link YouTube tidak valid.'); return; }
+      SoundEffects.klik(); document.getElementById('judulModalVideo').textContent = '📺 Tutorial: ' + g.judul;
+      document.getElementById('wadahIframeVideo').innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${yId}?autoplay=1" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>`;
+      bukaModal('modalVideo');
+    }
+    function tutupModalVideo() { document.getElementById('wadahIframeVideo').innerHTML = ''; tutupModal('modalVideo'); }
+    function bukaModalTujuan(id) {
+      const g = GAMES.find(x => x.id === id); if (!g) return;
+      SoundEffects.klik(); document.getElementById('tujuanJudulGame').textContent = g.judul;
+      document.getElementById('tujuanFase').textContent = g.fase || 'Umum'; document.getElementById('tujuanMapel').textContent = g.mapel || 'Umum';
+      document.getElementById('tujuanIsiTeks').textContent = g.tujuan || g.deskripsi || 'Belum ada catatan tujuan pembelajaran.';
+      bukaModal('modalTujuan');
+    }
+    function bukaModalAjukan() { SoundEffects.klik(); bukaModal('modalAjukan'); }
+    function bukaModalPengembang() { SoundEffects.klik(); bukaModal('modalPengembang'); }
+
+    document.getElementById('formAjukanKarya').addEventListener('submit', async e => {
+      e.preventDefault(); const btn = document.getElementById('btnKirimAjukan'); btn.disabled = true; btn.textContent = 'Mengirim...';
+      const payload = {
+        id: 'gm-' + Date.now().toString(36), judul: document.getElementById('ajukanJudul').value.trim(),
+        fase: document.getElementById('ajukanFase').value, mapel: document.getElementById('ajukanMapel').value.trim(),
+        kategori: document.getElementById('ajukanMapel').value.trim(), creator: document.getElementById('ajukanCreator').value.trim(),
+        sekolah: document.getElementById('ajukanSekolah').value.trim(), kontak: document.getElementById('ajukanKontak').value.trim(),
+        url: document.getElementById('ajukanUrl').value.trim(), video: document.getElementById('ajukanVideo').value.trim(),
+        thumbnail: document.getElementById('ajukanThumb').value.trim(), tujuan: document.getElementById('ajukanTujuan').value.trim(),
+        deskripsi: document.getElementById('ajukanDeskripsi').value.trim(), sorot: false, sembunyi: true, clicks: 0, waktu: Date.now()
+      };
+      try {
+        await sinkronisasiKeBackend({ action: 'ajukan', game: payload });
+        GAMES.unshift(payload); localStorage.setItem(STORAGE_KEY, JSON.stringify(GAMES));
+        SoundEffects.sukses(); tutupModal('modalAjukan'); document.getElementById('formAjukanKarya').reset(); tampilkanToast('Karya diajukan! Menunggu kurasi admin.');
+      } catch(err) { SoundEffects.error(); tampilkanToast('Gagal mengirim pengajuan.'); }
+      finally { btn.disabled = false; btn.textContent = 'Kirim Pengajuan'; }
+    });
+
+    function renderObrolan() {
+      const w = document.getElementById('wadahDaftarChat');
+      if (!KOMENTAR || !KOMENTAR.length) { w.innerHTML = '<p style="text-align:center;color:var(--tinta-soft);padding:14px;font-weight:700">Belum ada obrolan. Jadilah yang pertama menulis pesan!</p>'; return; }
+      const pU = KOMENTAR.filter(k => !k.parentId).sort((a, b) => b.waktu - a.waktu);
+      w.innerHTML = pU.map(item => {
+        const b = KOMENTAR.filter(x => x.parentId === item.id).sort((m, n) => m.waktu - n.waktu);
+        return `<div class="chat-item">
+          <div class="chat-meta"><span class="chat-nama">${item.nama}</span><span class="chat-waktu">${new Date(item.waktu).toLocaleDateString('id-ID', {day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</span></div>
+          <div class="chat-pesan">${item.pesan}</div>
+          <span class="chat-balas-btn" onclick="siapkanBalasan('${item.id}', '${item.nama}')">↪ Balas Pesan</span>
+          ${b.length ? `<div class="chat-replies">${b.map(sub => `<div class="chat-reply-item"><div class="chat-meta"><span class="chat-nama" style="font-size:.8rem;color:var(--teal)">${sub.nama}</span><span class="chat-waktu">${new Date(sub.waktu).toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit'})}</span></div><div class="chat-pesan" style="font-size:.82rem">${sub.pesan}</div></div>`).join('')}</div>` : ''}
+        </div>`;
+      }).join('');
+    }
+
+    function siapkanBalasan(pId, n) { document.getElementById('chatParentId').value = pId; document.getElementById('labelBalasPesan').textContent = 'Membalas: ' + n; document.getElementById('boxInfoBalas').style.display = 'flex'; document.getElementById('chatPesan').focus(); }
+    function batalBalasChat() { document.getElementById('chatParentId').value = ''; document.getElementById('boxInfoBalas').style.display = 'none'; }
+
+    document.getElementById('formKirimChat').addEventListener('submit', async e => {
+      e.preventDefault(); const btn = document.getElementById('btnKirimChat'); btn.disabled = true; btn.textContent = 'Mengirim...';
+      const pK = { id: 'msg-' + Date.now().toString(36), parentId: document.getElementById('chatParentId').value, nama: document.getElementById('chatNama').value.trim(), pesan: document.getElementById('chatPesan').value.trim(), waktu: Date.now() };
+      try {
+        KOMENTAR.push(pK); renderObrolan(); sinkronisasiKeBackend({ action: 'kirim_komentar', komentar: pK });
+        document.getElementById('chatPesan').value = ''; batalBalasChat(); SoundEffects.sukses(); tampilkanToast('Pesan terkirim!');
+      } catch(err) { SoundEffects.error(); tampilkanToast('Gagal mengirim pesan.'); }
+      finally { btn.disabled = false; btn.textContent = 'Kirim Pesan 🚀'; }
+    });
+
+    function renderSorotan() {
+      const w = document.getElementById('wadahSorotan'), g = GAMES.find(x => x.sorot && !x.sembunyi);
+      if (!g) { w.classList.remove('tampil'); w.innerHTML = ''; return; }
+      w.classList.add('tampil');
+      w.innerHTML = `<div class="sorotan-card">
+        <div class="sorotan-img-box"><img src="${g.thumbnail}" alt="${g.judul}" onerror="this.src='https://via.placeholder.com/640x360?text=Game+Edukasi'"></div>
+        <div class="sorotan-detail">
+          <span class="badge-sorotan">⭐ GAME SOROTAN PEKAN INI</span>
+          <h2 style="font-size:1.8rem">${g.judul}</h2>
+          <p style="color:var(--tinta-soft);font-weight:600;font-size:.95rem">${g.deskripsi || 'Game pilihan dengan gameplay edukatif yang seru!'}</p>
+          <div style="display:flex;flex-direction:column;gap:2px;margin:2px 0 4px">
+            <span style="font-size:.85rem;color:var(--tinta-soft)">Creator: <b style="color:var(--tinta)">${g.creator}</b></span>
+            <span style="font-size:.82rem;font-weight:800;color:var(--teal)">${g.sekolah || 'Sekolah Penggerak'}</span>
+          </div>
+          <div style="font-size:.8rem;font-weight:800;color:var(--indigo)">${g.kategori || 'Umum'} · ${g.fase || 'Umum'} · ${g.mapel || 'Umum'}</div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px">
+            <button class="btn btn-utama" onclick="mainkanGame('${g.id}','${g.url}')">▶ Mainkan Sekarang</button>
+            ${g.video ? `<button class="btn btn-sm btn-rose" onclick="bukaTutorialVideo('${g.id}')">📺 Tutorial</button>` : ''}
+            <button class="btn btn-sm btn-teal" onclick="bukaModalTujuan('${g.id}')">🎯 Tujuan</button>
+            <span style="font-weight:800;font-size:.85rem;color:var(--tinta-soft);margin-left:auto">👁️ ${g.clicks || 0}x dimainkan</span>
+          </div>
+        </div>
+      </div>`;
+    }
+
+    function renderGrid() {
+      const gd = document.getElementById('gridGame');
+      let f = GAMES.filter(g => !g.sembunyi && (kategoriTerpilih === 'Semua' || (g.kategori || 'Umum') === kategoriTerpilih) && (faseTerpilih === 'Semua' || (g.fase || 'Umum') === faseTerpilih) && (mapelTerpilih === 'Semua' || (g.mapel || 'Umum') === mapelTerpilih) && (g.judul.toLowerCase().includes(kataKunci) || g.creator.toLowerCase().includes(kataKunci) || (g.sekolah && g.sekolah.toLowerCase().includes(kataKunci)) || (g.deskripsi && g.deskripsi.toLowerCase().includes(kataKunci))));
+      f.sort((a, b) => modeSort === 'populer' ? (b.clicks || 0) - (a.clicks || 0) : (b.waktu || 0) - (a.waktu || 0));
+      if (!f.length) { gd.innerHTML = '<div class="empty-state"><div class="icon">🔍</div><h3 style="font-size:1.3rem">Game Belum Ditemukan</h3><p style="color:var(--tinta-soft);font-weight:700">Coba sesuaikan pilihan filter atau kata kunci pencarian Anda.</p></div>'; return; }
+      gd.innerHTML = f.map(g => `<article class="kartu">
+        <div class="kartu-thumb"><img src="${g.thumbnail}" alt="${g.judul}" loading="lazy" onerror="this.src='https://via.placeholder.com/640x360?text=Preview+Game'"><span class="badge-counter ${(g.clicks || 0) < 5 ? 'baru' : ''}">${(g.clicks || 0) < 5 ? '✨ Baru' : '👁️ ' + g.clicks + 'x'}</span></div>
+        <div class="kartu-isi">
+          <div class="kartu-tags-wrapper"><span class="kartu-tag tag-kat">${g.kategori || 'Umum'}</span><span class="kartu-tag tag-fase">${g.fase || 'Fase'}</span><span class="kartu-tag tag-mapel">${g.mapel || 'Mapel'}</span></div>
+          <h3 class="kartu-judul">${g.judul}</h3>
+          <div class="kartu-meta"><div class="kartu-creator-wrap"><span class="kartu-creator-nama">Creator: <b>${g.creator}</b></span><span class="kartu-creator-sekolah">${g.sekolah || 'Sekolah Penggerak'}</span></div><div class="kartu-counter-teks">👁️ <b>${g.clicks || 0}</b>x</div></div>
+          <div class="kartu-aksi">
+            <button class="btn btn-sm btn-utama" onclick="mainkanGame('${g.id}', '${g.url}')">Mainkan Sekarang ↗</button>
+            <div class="kartu-sub-aksi">
+              ${g.video ? `<button class="btn btn-sm btn-rose" onclick="bukaTutorialVideo('${g.id}')">📺 Tutorial</button>` : ''}
+              <button class="btn btn-sm btn-teal" onclick="bukaModalTujuan('${g.id}')">🎯 Tujuan</button>
+            </div>
+          </div>
+        </div>
+      </article>`).join('');
+    }
+
+    function mainkanGame(id, u) {
+      SoundEffects.bukaGame(); window.open(u, '_blank', 'noopener,noreferrer');
+      const i = GAMES.findIndex(g => g.id === id);
+      if (i !== -1) {
+        GAMES[i].clicks = (GAMES[i].clicks || 0) + 1;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(GAMES));
+        renderSemua(); sinkronisasiKeBackend({ action: 'click', gameId: id, currentClicks: GAMES[i].clicks });
+      }
+    }
+
+    function updateStatistik() {
+      const a = GAMES.filter(g => !g.sembunyi);
+      const totalClicks = a.reduce((s, c) => s + (c.clicks || 0), 0);
+      document.getElementById('statTotalKlikGame').textContent = totalClicks.toLocaleString('id-ID');
+      
+      const topCountEl = document.getElementById('topTotalGameStat');
+      if (topCountEl) topCountEl.textContent = `${a.length} Pilihan`;
+    }
+
+    document.getElementById('kotakCari').addEventListener('input', e => { kataKunci = e.target.value.toLowerCase().trim(); renderGrid(); });
+
+    (() => {
+      const t = document.getElementById('titikRahasia'); let tm = null;
+      t.addEventListener('pointerdown', e => { e.preventDefault(); t.classList.add('tekan'); tm = setTimeout(() => { t.classList.remove('tekan'); t.classList.add('sukses'); SoundEffects.sukses(); setTimeout(() => t.classList.remove('sukses'), 500); bukaModalLogin(); }, 2000); });
+      ['pointerup', 'pointerleave', 'pointercancel'].forEach(v => t.addEventListener(v, () => { clearTimeout(tm); t.classList.remove('tekan'); }));
+      t.addEventListener('contextmenu', e => e.preventDefault());
+    })();
+
+    function cekHashUrl() { if (location.hash.toLowerCase() === '#pintu') { history.replaceState(null, '', location.pathname + location.search); bukaModalLogin(); } }
+    window.addEventListener('hashchange', cekHashUrl); setTimeout(cekHashUrl, 300);
+
+    function bukaModalLogin() { SoundEffects.klik(); bukaModal('modalLogin'); setTimeout(() => document.getElementById('inputSandi').focus(), 150); }
+    document.getElementById('formLogin').addEventListener('submit', e => {
+      e.preventDefault();
+      if (document.getElementById('inputSandi').value === PASS_DEFAULT) {
+        SoundEffects.sukses(); tutupModal('modalLogin'); document.getElementById('inputSandi').value = ''; bukaModalAdminDashboard(); tampilkanToast('Selamat datang Admin!');
+      } else { SoundEffects.error(); tampilkanToast('Kata sandi salah!'); }
+    });
+
+    function bukaModalAdminDashboard() { bukaModal('modalAdmin'); pindahTabAdmin('form'); renderAdminList(); renderAdminGaleriList(); }
+    
+    function pindahTabAdmin(t) {
+      SoundEffects.klik();
+      document.getElementById('tabBtnForm').classList.toggle('aktif', t === 'form');
+      document.getElementById('tabBtnKelola').classList.toggle('aktif', t === 'kelola');
+      document.getElementById('tabBtnGaleri').classList.toggle('aktif', t === 'galeri');
+      
+      document.getElementById('formGameAdmin').style.display = t === 'form' ? 'block' : 'none';
+      document.getElementById('panelDaftarAdmin').style.display = t === 'kelola' ? 'block' : 'none';
+      document.getElementById('panelGaleriAdmin').style.display = t === 'galeri' ? 'block' : 'none';
+
+      if (t === 'kelola') renderAdminList();
+      if (t === 'galeri') renderAdminGaleriList();
+    }
+
+    document.getElementById('formGameAdmin').addEventListener('submit', e => {
+      e.preventDefault(); const id = document.getElementById('editGameId').value;
+      const p = {
+        id: id || 'gm-' + Date.now().toString(36), judul: document.getElementById('inJudul').value.trim(), kategori: document.getElementById('inKategori').value.trim(),
+        fase: document.getElementById('inFase').value, mapel: document.getElementById('inMapel').value.trim(), creator: document.getElementById('inCreator').value.trim(),
+        sekolah: document.getElementById('inSekolah').value.trim(), url: document.getElementById('inUrl').value.trim(), thumbnail: document.getElementById('inThumb').value.trim(),
+        video: document.getElementById('inVideo').value.trim(), tujuan: document.getElementById('inTujuan').value.trim(), deskripsi: document.getElementById('inDeskripsi').value.trim(),
+        sorot: document.getElementById('inSorotan').checked, sembunyi: document.getElementById('inSembunyi').checked, clicks: id ? (GAMES.find(g => g.id === id)?.clicks || 0) : 0, waktu: id ? (GAMES.find(g => g.id === id)?.waktu || Date.now()) : Date.now()
+      };
+      if (p.sorot) GAMES.forEach(g => g.sorot = false);
+      if (id) { const i = GAMES.findIndex(g => g.id === id); if (i !== -1) GAMES[i] = p; tampilkanToast('Game diperbarui!'); }
+      else { GAMES.unshift(p); tampilkanToast('Game baru ditambahkan!'); }
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(GAMES)); renderSemua(); bersihkanFormAdmin(); pindahTabAdmin('kelola'); SoundEffects.sukses();
+      sinkronisasiKeBackend({ action: id ? 'update' : 'add', game: p });
+    });
+
+    document.getElementById('formTambahGaleri').addEventListener('submit', async e => {
+      e.preventDefault(); const btn = document.getElementById('btnSimpanGaleri'); btn.disabled = true; btn.textContent = 'Menyimpan Foto...';
+      const payloadGaleri = { id: 'gl-' + Date.now().toString(36), judul: document.getElementById('inGaleriJudul').value.trim(), url: document.getElementById('inGaleriUrl').value.trim(), deskripsi: document.getElementById('inGaleriDeskripsi').value.trim() };
+      try {
+        GALERI.unshift(payloadGaleri); renderGaleri(); renderAdminGaleriList();
+        sinkronisasiKeBackend({ action: 'add_galeri', galeri: payloadGaleri });
+        document.getElementById('formTambahGaleri').reset(); SoundEffects.sukses(); tampilkanToast('Foto galeri ditambahkan!');
+      } catch(err) { SoundEffects.error(); tampilkanToast('Gagal menambah foto.'); }
+      finally { btn.disabled = false; btn.textContent = 'Simpan ke Galeri 📸'; }
+    });
+
+    function renderAdminGaleriList() {
+      const w = document.getElementById('listGaleriAdmin');
+      if (!GALERI.length) { w.innerHTML = '<p style="text-align:center;color:var(--tinta-soft);padding:14px">Belum ada foto di galeri.</p>'; return; }
+      w.innerHTML = GALERI.map(g => `<div class="admin-list-item">
+        <div style="display:flex;align-items:center;gap:10px;min-width:0">
+          <img src="${g.url}" style="width:42px;height:42px;border-radius:8px;object-fit:cover;border:1.5px solid var(--tinta)">
+          <div class="admin-list-info"><b>${g.judul || 'Dokumentasi'}</b><small>${g.deskripsi || '-'}</small></div>
+        </div>
+        <button class="btn btn-sm btn-rose" onclick="hapusGaleri('${g.id}')" title="Hapus Foto">🗑️</button>
+      </div>`).join('');
+    }
+
+    function hapusGaleri(id) {
+      if (confirm('Yakin ingin menghapus foto ini dari galeri?')) {
+        GALERI = GALERI.filter(x => x.id !== id); renderGaleri(); renderAdminGaleriList(); SoundEffects.klik(); tampilkanToast('Foto dihapus.');
+        sinkronisasiKeBackend({ action: 'delete_galeri', galeriId: id });
+      }
+    }
+
+    function renderAdminList() {
+      const w = document.getElementById('listGameAdmin');
+      if (!GAMES.length) { w.innerHTML = '<p style="text-align:center;color:var(--tinta-soft);padding:20px">Belum ada daftar game.</p>'; return; }
+      w.innerHTML = GAMES.map(g => `<div class="admin-list-item">
+        <div class="admin-list-info"><b>${g.judul} ${g.sorot ? '⭐' : ''} ${g.sembunyi ? '👁️‍🗨️ (Draft / Ajuan)' : ''}</b><small>${g.creator} · ${g.sekolah || '-'} · ${g.fase || '-'} · <b>${g.clicks || 0} Klik</b></small></div>
+        <div class="admin-actions">
+          <button class="btn btn-sm btn-amber" onclick="resetCounterGame('${g.id}')" title="Reset Counter">🔄 0</button>
+          <button class="btn btn-sm btn-putih" onclick="editGame('${g.id}')" title="Ubah Data">✏️</button>
+          <button class="btn btn-sm btn-rose" onclick="hapusGame('${g.id}')" title="Hapus Game">🗑️</button>
+        </div>
+      </div>`).join('');
+    }
+
+    function editGame(id) {
+      const g = GAMES.find(x => x.id === id); if (!g) return;
+      document.getElementById('editGameId').value = g.id; document.getElementById('inJudul').value = g.judul; document.getElementById('inKategori').value = g.kategori || '';
+      document.getElementById('inFase').value = g.fase || 'Umum'; document.getElementById('inMapel').value = g.mapel || ''; document.getElementById('inCreator').value = g.creator;
+      document.getElementById('inSekolah').value = g.sekolah || ''; document.getElementById('inUrl').value = g.url; document.getElementById('inThumb').value = g.thumbnail;
+      document.getElementById('inVideo').value = g.video || ''; document.getElementById('inTujuan').value = g.tujuan || ''; document.getElementById('inDeskripsi').value = g.deskripsi || '';
+      document.getElementById('inSorotan').checked = !!g.sorot; document.getElementById('inSembunyi').checked = !!g.sembunyi; document.getElementById('btnSimpanGame').textContent = 'Perbarui Game';
+      pindahTabAdmin('form');
+    }
+
+    function bersihkanFormAdmin() { document.getElementById('formGameAdmin').reset(); document.getElementById('editGameId').value = ''; document.getElementById('btnSimpanGame').textContent = 'Simpan Game'; }
+    function resetCounterGame(id) {
+      if (confirm('Reset hitungan klik game ini ke 0?')) {
+        const g = GAMES.find(x => x.id === id);
+        if (g) { g.clicks = 0; localStorage.setItem(STORAGE_KEY, JSON.stringify(GAMES)); sinkronisasiKeBackend({ action: 'resetCounter', gameId: id }); renderSemua(); renderAdminList(); SoundEffects.klik(); tampilkanToast('Counter direset ke 0.'); }
+      }
+    }
+
+    function hapusGame(id) {
+      const g = GAMES.find(x => x.id === id); if (!g) return;
+      if (confirm(`Yakin ingin menghapus game "${g.judul}"?`)) {
+        GAMES = GAMES.filter(x => x.id !== id); localStorage.setItem(STORAGE_KEY, JSON.stringify(GAMES)); renderSemua(); renderAdminList(); SoundEffects.klik(); tampilkanToast('Game dihapus.');
+        sinkronisasiKeBackend({ action: 'delete', gameId: id });
+      }
+    }
+
+    function unduhBackupJson() {
+      SoundEffects.sukses(); const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(GAMES, null, 2)], { type: 'application/json' }));
+      a.download = `games_backup_${new Date().toISOString().slice(0, 10)}.json`; document.body.appendChild(a); a.click(); a.remove();
+      tampilkanToast('File games.json diunduh!');
+    }
+
+    function bukaModal(id) { document.getElementById(id).classList.add('buka'); document.body.style.overflow = 'hidden'; }
+    function tutupModal(id) { SoundEffects.klik(); document.getElementById(id).classList.remove('buka'); document.body.style.overflow = ''; }
+
+    document.querySelectorAll('.overlay').forEach(o => o.addEventListener('click', e => { if (e.target === o) (o.id === 'modalVideo' ? tutupModalVideo() : tutupModal(o.id)); }));
+    window.addEventListener('keydown', e => { if (e.key === 'Escape') (document.getElementById('modalVideo').classList.contains('buka')) ? tutupModalVideo() : document.querySelectorAll('.overlay.buka').forEach(o => tutupModal(o.id)); });
+
+    const btnSuara = document.getElementById('btnSuara');
+    if (!SoundEffects.isAktif) btnSuara.classList.add('aktif');
+    btnSuara.addEventListener('click', () => { const k = SoundEffects.toggle(); btnSuara.textContent = k ? '🔊' : '🔇'; tampilkanToast(k ? 'Suara Diaktifkan' : 'Suara Dimatikan'); });
+    document.getElementById('btnLayar').addEventListener('click', () => { SoundEffects.klik(); (!document.fullscreenElement ? document.documentElement.requestFullscreen().catch(()=>{}) : document.exitFullscreen().catch(()=>{})); });
+
+    function tampilkanToast(p) {
+      const w = document.getElementById('wadahToast'), t = document.createElement('div'); t.className = 'toast'; t.textContent = p; w.appendChild(t);
+      setTimeout(() => { t.style.transition = '.3s'; t.style.opacity = '0'; t.style.transform = 'translateY(10px)'; setTimeout(() => t.remove(), 320); }, 2600);
+    }
+
+    window.addEventListener('DOMContentLoaded', initData);
+  </script>
+</body>
+</html>
