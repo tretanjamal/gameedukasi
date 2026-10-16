@@ -196,6 +196,23 @@
   
     .btn-wa{background:#25D366;color:#fff}.btn .wa-ic{width:16px;height:16px;fill:currentColor;flex:0 0 auto}
     .kartu-aksi>.btn{width:100%}
+  
+    /* ===== TEMA WARNA (versi kalem) ===== */
+    body{background:#F1F4FF}
+    .header{background:#4F46E5;backdrop-filter:none}
+    .merek-teks b{color:#fff}.merek-teks span{color:#C7D2FE}
+    .logo-ikon{background:var(--amber)}
+    .hero{background:linear-gradient(135deg,#6366F1 0%,#8B5CF6 100%);border:var(--b-tb);border-radius:var(--r-lg);box-shadow:var(--sh-md);margin-top:22px;margin-bottom:18px;padding:28px 18px 24px!important;color:#fff}
+    .hero-judul{color:#fff}.hero-judul span.highlight{color:var(--amber);text-decoration-color:#fff}
+    .hero-sub{color:rgba(255,255,255,.94);margin-bottom:0}
+    .chip.kat-gim{background:#FEF3C7}.chip.kat-mpi{background:#E0E7FF}.chip.kat-lab{background:#D1FAE5}
+    .chip.chip-kat.aktif{background:var(--tinta);color:#fff}
+    .kartu.k-gim{box-shadow:0 5px 0 -1px #F59E0B,0 5px 0 0 var(--tinta)}
+    .kartu.k-mpi{box-shadow:0 5px 0 -1px #6366F1,0 5px 0 0 var(--tinta)}
+    .kartu.k-lab{box-shadow:0 5px 0 -1px #10B981,0 5px 0 0 var(--tinta)}
+    .footer{background:var(--tinta);border-top:3px solid var(--amber)}
+    .footer p{color:#C7D2FE}.footer b{color:#fff}
+    .titik-rahasia::after{background:#fff}
   </style>
 </head>
 <body>
@@ -478,7 +495,7 @@
   </div>
 
   <script>
-    const API_URL = 'https://script.google.com/macros/s/AKfycbyoRiMnfi8Wb9xk92Mw4h1lrnHBUACQIY9ckzr5nbOg7PySNaqJ1KnXNdxgPgW1r7MASg/exec';
+    const API_URL = 'https://script.google.com/macros/s/AKfycbxH2lNzesLGk0HLZ1Fdk3imzATZbedALI1wd-2IGEBDYcbvOccux_mP4xuR_jc5Lc9kWw/exec';
     let ADMIN_TOKEN = ''; const STORAGE_KEY = 'eduplay_games_data_v1';
 
     const KATEGORI = [{n:'Gim Edukasi',i:'🎮',c:'kat-gim'},{n:'MPI',i:'📚',c:'kat-mpi'},{n:'Lab Maya',i:'🧪',c:'kat-lab'}];
@@ -611,7 +628,7 @@
     function renderFilters() {
       const wK = document.getElementById('wadahKategori'), wF = document.getElementById('wadahFase'), wM = document.getElementById('wadahMapel'), gA = GAMES.filter(g => !g.sembunyi);
       const dK = ['Semua', ...KATEGORI.map(k => k.n)], dF = ['Semua', ...new Set(gA.map(g => g.fase || 'Umum'))], dM = ['Semua', ...new Set(gA.map(g => g.mapel || 'Umum'))];
-      wK.innerHTML = dK.map(k => `<button class="chip chip-kat ${kategoriTerpilih === k ? 'aktif' : ''}" onclick="pilihKategori('${k}')">${k === 'Semua' ? '✨ Semua' : katInfo(k).i + ' ' + k}</button>`).join('');
+      wK.innerHTML = dK.map(k => `<button class="chip chip-kat ${k === 'Semua' ? '' : katInfo(k).c} ${kategoriTerpilih === k ? 'aktif' : ''}" onclick="pilihKategori('${k}')">${k === 'Semua' ? '✨ Semua' : katInfo(k).i + ' ' + k}</button>`).join('');
       wF.innerHTML = dF.map(f => `<button class="chip chip-fase ${faseTerpilih === f ? 'aktif' : ''}" onclick="pilihFase('${f}')">${f}</button>`).join('');
       wM.innerHTML = dM.map(m => `<button class="chip chip-mapel ${mapelTerpilih === m ? 'aktif' : ''}" onclick="pilihMapel('${m}')">${m}</button>`).join('');
     }
@@ -734,7 +751,7 @@
       let f = GAMES.filter(g => !g.sembunyi && (kategoriTerpilih === 'Semua' || normKat(g.kategori) === kategoriTerpilih) && (faseTerpilih === 'Semua' || (g.fase || 'Umum') === faseTerpilih) && (mapelTerpilih === 'Semua' || (g.mapel || 'Umum') === mapelTerpilih) && (g.judul.toLowerCase().includes(kataKunci) || g.creator.toLowerCase().includes(kataKunci) || (g.sekolah && g.sekolah.toLowerCase().includes(kataKunci)) || (g.deskripsi && g.deskripsi.toLowerCase().includes(kataKunci))));
       f.sort((a, b) => modeSort === 'populer' ? (b.clicks || 0) - (a.clicks || 0) : (b.waktu || 0) - (a.waktu || 0));
       if (!f.length) { gd.innerHTML = '<div class="empty-state"><div class="icon">🔍</div><h3 style="font-size:1.3rem">Game Belum Ditemukan</h3><p style="color:var(--tinta-soft);font-weight:700">Coba sesuaikan pilihan filter atau kata kunci pencarian Anda.</p></div>'; return; }
-      const sisa = f.length - tampilMax; gd.innerHTML = f.slice(0, tampilMax).map(g => `<article class="kartu" id="kartu-${g.id}">
+      const sisa = f.length - tampilMax; gd.innerHTML = f.slice(0, tampilMax).map(g => `<article class="kartu ${katInfo(g.kategori).c.replace('kat-', 'k-')}" id="kartu-${g.id}">
         <div class="kartu-thumb"><img src="${g.thumbnail}" alt="${esc(g.judul)}" loading="lazy" onerror="this.onerror=null;this.src=PH">${katBadge(g)}${isBaru(g) ? '<span class="badge-counter baru">✨ Baru</span>' : ''}</div>
         <div class="kartu-isi">
           <div class="kartu-tags-wrapper"><span class="kartu-tag tag-fase">${esc(g.fase || 'Fase')}</span><span class="kartu-tag tag-mapel">${esc(g.mapel || 'Mapel')}</span></div>
@@ -755,7 +772,7 @@
     function bagikanWA(id) {
       const g = GAMES.find(x => x.id === id); if (!g) return; SoundEffects.klik();
       const url = location.origin + location.pathname + '?game=' + encodeURIComponent(g.id);
-      const teks = `🎮 *${g.judul}*\n${katInfo(g.kategori).i} ${normKat(g.kategori)} • ${g.fase || 'Umum'} • ${g.mapel || 'Umum'}\nOleh ${g.creator}${g.sekolah ? ' (' + g.sekolah + ')' : ''}\n\nMainkan di sini 👇\n${url}`;
+      const teks = `*${g.judul}*\n${normKat(g.kategori)} | ${g.fase || 'Umum'} | ${g.mapel || 'Umum'}\nOleh ${g.creator}${g.sekolah ? ' (' + g.sekolah + ')' : ''}\n\nMainkan di sini:\n${url}`;
       window.open('https://wa.me/?text=' + encodeURIComponent(teks), '_blank', 'noopener,noreferrer');
     }
     let deepDone = false;
@@ -978,7 +995,7 @@ async function setujuiGame(id) {
       } else if (info.tipe === 'wa') {
         let n = info.kontak.replace(/\D/g, ''); if (n.startsWith('0')) n = '62' + n.slice(1); else if (n.startsWith('8')) n = '62' + n;
         const link = location.origin + location.pathname + '?game=' + encodeURIComponent(id);
-        const teks = `Halo ${info.creator}, kabar baik! Karya Anda "${info.judul}" sudah disetujui dan tayang di portal Game Interaktif: ${link}\n\nTerima kasih sudah berkontribusi 🙏`;
+        const teks = `Halo ${info.creator}, kabar baik! Karya Anda "${info.judul}" sudah disetujui dan tayang di portal Game Interaktif: ${link}\n\nTerima kasih sudah berkontribusi.`;
         box.innerHTML = kotak('#D1FAE5', `✅ Disetujui. Kontak pengaju berupa nomor WhatsApp.<br><a class="btn btn-sm btn-wa" style="margin-top:8px" target="_blank" rel="noopener noreferrer" href="https://wa.me/${n}?text=${encodeURIComponent(teks)}">${WA_ICON} Kirim kabar ke ${esc(info.creator)}</a>`);
       } else {
         box.innerHTML = kotak('#FEF3C7', `✅ Disetujui. Kontak pengaju (bukan email/nomor): <b>${esc(info.kontak || '-')}</b>`);
