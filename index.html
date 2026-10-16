@@ -8,9 +8,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet">
   <style>
-    :root{--bg:#F4F7FE;--card:#FFF;--card-alt:#EBF1FF;--tinta:#1E1B4B;--tinta-soft:#64748B;--indigo:#6366F1;--teal:#06B6D4;--amber:#FBBF24;--rose:#FB7185;--emerald:#10B981;--putih:#FFF;--b-tb:2.5px solid var(--tinta);--sh-lg:0 8px 0 -1px var(--tinta);--sh-md:0 5px 0 -1px var(--tinta);--sh-sm:0 3px 0 -1px var(--tinta);--r-lg:24px;--r-md:16px;--r-sm:12px}
+    :root{--bg:#F4F7FE;--card:#FFF;--card-alt:#EBF1FF;--tinta:#1E1B4B;--tinta-soft:#475569;--indigo:#6366F1;--teal:#06B6D4;--amber:#FBBF24;--rose:#FB7185;--emerald:#10B981;--putih:#FFF;--b-tb:2.5px solid var(--tinta);--sh-lg:0 8px 0 -1px var(--tinta);--sh-md:0 5px 0 -1px var(--tinta);--sh-sm:0 3px 0 -1px var(--tinta);--r-lg:24px;--r-md:16px;--r-sm:12px}
     *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-    body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--tinta);min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;line-height:1.4;-webkit-user-select:none;user-select:none}
+    body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--tinta);min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;line-height:1.4}
     img{-webkit-user-drag:none;user-select:none}
     input,textarea{-webkit-user-select:text;user-select:text}
     h1,h2,h3,h4{font-family:'Baloo 2',cursive;font-weight:800;line-height:1.15;letter-spacing:-.01em}
@@ -178,9 +178,27 @@
     .toast{background:var(--tinta);color:var(--putih);padding:10px 20px;border-radius:999px;border:2px solid var(--putih);font-weight:800;font-size:.88rem;box-shadow:0 8px 20px rgba(0,0,0,.3);animation:popIn .25s cubic-bezier(.34,1.56,.64,1)}
     @keyframes popIn{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
     @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  
+    .kat-badge{position:absolute;top:8px;left:8px;display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border:2px solid var(--tinta);border-radius:999px;font-size:.76rem;font-weight:900;box-shadow:0 2px 0 var(--tinta)}
+    .kat-gim{background:#FDE68A}.kat-mpi{background:#C7D2FE}.kat-lab{background:#A7F3D0}
+    .chip.chip-kat{font-size:.88rem;padding:6px 16px}
+    .chip.chip-kat.aktif{background:var(--tinta)}
+    :focus-visible{outline:3px solid var(--indigo);outline-offset:2px}
+    .hero{padding:24px 0 8px!important}
+  
+    .top-meta-stack{margin:0 auto 14px}
+    .chat-section,.galeri-section,.stats-counter-box{border-width:2px;box-shadow:none}
+    .kartu-tag{font-size:.76rem}
+    .kartu-sub-aksi{align-items:center}.kartu-sub-aksi .btn-icon{flex:0 0 36px;width:36px;height:36px;border-radius:12px}
+    .skel{height:300px;border:2px solid rgba(30,27,75,.15);border-radius:var(--r-lg);background:linear-gradient(90deg,#EBF1FF 25%,#F8FAFF 50%,#EBF1FF 75%);background-size:200% 100%;animation:skel 1.2s infinite}
+    @keyframes skel{to{background-position:-200% 0}}
+    @media(max-width:600px){.filter-label{display:none}.txt-ajukan{display:none}.search-input-box{min-width:100%}.search-actions{width:100%}.search-actions .btn{flex:1}.merek-teks span{display:none}}
+  
+    .btn-wa{background:#25D366;color:#fff}.btn .wa-ic{width:16px;height:16px;fill:currentColor;flex:0 0 auto}
+    .kartu-aksi>.btn{width:100%}
   </style>
 </head>
-<body oncontextmenu="return false;">
+<body>
   <header class="header">
     <div class="bungkus header-isi">
       <div class="merek">
@@ -188,6 +206,7 @@
         <div class="merek-teks"><b>Game Interaktif</b><span>Belajar sambil bermain</span></div>
       </div>
       <div class="nav-actions">
+        <button class="btn btn-sm btn-emerald" onclick="bukaModalAjukan()" title="Ajukan karya Anda">➕ <span class="txt-ajukan">Ajukan Karya</span></button>
         <button class="btn-icon" id="btnSuara" title="Suara Efek (On/Off)">🔊</button>
         <button class="btn-icon" id="btnLayar" title="Layar Penuh">⛶</button>
       </div>
@@ -197,13 +216,13 @@
   <section class="bungkus hero">
     <div class="hero-badge"><span class="titik"></span><span>Koleksi Pembelajaran Mandiri & Kelas</span></div>
     <h1 class="hero-judul">Eksplorasi Game <span class="highlight">Edukatif</span></h1>
-    <p class="hero-sub">Mainkan puluhan media dan game edukatif yang bisa dimainkan langsung di Papan Interaktif Digital maupun browsermu.</p>
+    <p class="hero-sub">Jelajahi Gim Edukasi, Media Pembelajaran Interaktif (MPI), dan Lab Maya yang bisa dimainkan langsung di papan interaktif maupun browser.</p>
   </section>
 
   <!-- GAME TERSEDIA & TENTANG PENGEMBANG -->
   <section class="bungkus top-meta-stack">
     <div class="game-count-pill"><span>🎮 Game Tersedia:</span><b id="topTotalGameStat">0 Pilihan</b></div>
-    <button class="btn btn-sm btn-teal" onclick="bukaModalPengembang()"><span>👨‍🏫 Tentang Pengembang</span></button>
+    
   </section>
   
   <section class="bungkus sorotan-box" id="wadahSorotan"></section>
@@ -213,7 +232,7 @@
       <div class="search-row">
         <div class="search-input-box"><span class="search-icon">🔍</span><input type="search" id="kotakCari" class="search-input" placeholder="Cari materi game, nama creator, atau kata kunci..."></div>
         <div class="search-actions">
-          <button class="btn btn-sm btn-emerald" onclick="bukaModalAjukan()" title="Ajukan Game / MPI Anda"><span>➕ Ajukan Karya</span></button>
+          
           <button class="btn btn-sm btn-putih" id="btnBukaFilter" title="Buka Filter Fase & Mapel"><span>⚙️ Filter</span><span class="filter-count-badge" id="badgeTotalFilter" style="display:none">0</span></button>
           <button class="btn btn-sm btn-amber" id="btnSort" title="Ubah Urutan Tampil"><span id="labelSort">🔥 Terpopuler</span></button>
         </div>
@@ -227,7 +246,7 @@
     </div>
   </section>
   
-  <main class="bungkus"><div class="game-grid" id="gridGame"></div></main>
+  <main class="bungkus"><div class="game-grid" id="gridGame"><div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div></div></main>
   <div class="bungkus" id="wadahAdsense"></div>
 
   <!-- PERCAKAPAN & DISKUSI -->
@@ -274,7 +293,7 @@
   </section>
   
   <footer class="footer">
-    <div class="bungkus"><p>© 2026 <b>Game Interaktif</b>. Dibuat dengan penuh dedikasi oleh <b>Tretan Jamal</b>.</p></div>
+    <div class="bungkus"><p>© 2026 <b>Game Interaktif</b>. Dibuat dengan penuh dedikasi oleh <b>Tretan Jamal</b>.</p><button class="btn btn-sm btn-teal" style="margin-top:10px" onclick="bukaModalPengembang()">👨‍🏫 Tentang Pengembang</button></div>
     <div class="titik-rahasia" id="titikRahasia" title="Portal" aria-hidden="true"></div>
   </footer>
   <div class="toast-box" id="wadahToast"></div>
@@ -330,7 +349,8 @@
       <div class="modal-header"><h3>🚀 Ajukan Game / Media Pembelajaran</h3><button class="btn btn-sm btn-putih" onclick="tutupModal('modalAjukan')">✕</button></div>
       <form id="formAjukanKarya" class="modal-body">
         <p style="font-size:.82rem;font-weight:700;color:var(--tinta-soft);margin-bottom:14px">Karya Anda akan ditinjau admin sebelum diterbitkan di portal ini.</p>
-        <div class="field-group"><label>Judul Permainan / MPI *</label><input type="text" id="ajukanJudul" required placeholder="Contoh: Kuis Cerdas Satuan Panjang"></div>
+        <div class="field-group"><label>Judul Karya *</label><input type="text" id="ajukanJudul" required placeholder="Contoh: Kuis Cerdas Satuan Panjang"></div>
+        <div class="field-group"><label>Kategori *</label><select id="ajukanKategori" required><option>Gim Edukasi</option><option>MPI</option><option>Lab Maya</option></select></div>
         <div class="grid-2">
           <div class="field-group">
             <label>Fase Kurikulum *</label>
@@ -389,7 +409,7 @@
           <input type="hidden" id="editGameId">
           <div class="field-group"><label>Judul Permainan *</label><input type="text" id="inJudul" required placeholder="Contoh: Petualangan Angka Pintar"></div>
           <div class="grid-2">
-            <div class="field-group"><label>Kategori Utama *</label><input type="text" id="inKategori" required placeholder="Matematika / Sains / Bahasa / Logika"></div>
+            <div class="field-group"><label>Kategori Utama *</label><select id="inKategori" required><option>Gim Edukasi</option><option>MPI</option><option>Lab Maya</option></select></div>
             <div class="field-group">
               <label>Fase Kurikulum *</label>
               <select id="inFase" required>
@@ -419,6 +439,7 @@
         <!-- Tab 2: Daftar Game -->
         <div id="panelDaftarAdmin" style="display:none">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><span style="font-weight:800;font-size:.85rem;color:var(--tinta-soft)">CADANGAN DATA</span><button class="btn btn-sm btn-teal" onclick="unduhBackupJson()">⬇ Unduh games.json</button></div>
+          <div id="hasilSetuju"></div>
           <div id="listGameAdmin"></div>
         </div>
 
@@ -457,9 +478,18 @@
   </div>
 
   <script>
-    const API_URL = 'https://script.google.com/macros/s/AKfycbxuParyeC1k7qrNlBPHF52wdSron4Usl1DkcvLp50iSnMctIEHOxPTfugYLUK4KtLZzNg/exec';
-    const PASS_DEFAULT = 'ninjasaga', STORAGE_KEY = 'eduplay_games_data_v1';
+    const API_URL = 'https://script.google.com/macros/s/AKfycbyoRiMnfi8Wb9xk92Mw4h1lrnHBUACQIY9ckzr5nbOg7PySNaqJ1KnXNdxgPgW1r7MASg/exec';
+    let ADMIN_TOKEN = ''; const STORAGE_KEY = 'eduplay_games_data_v1';
 
+    const KATEGORI = [{n:'Gim Edukasi',i:'🎮',c:'kat-gim'},{n:'MPI',i:'📚',c:'kat-mpi'},{n:'Lab Maya',i:'🧪',c:'kat-lab'}];
+    const normKat = k => (KATEGORI.find(x => x.n.toLowerCase() === String(k || '').trim().toLowerCase()) || KATEGORI[0]).n;
+    const katInfo = k => KATEGORI.find(x => x.n === normKat(k));
+    const katBadge = g => { const k = katInfo(g.kategori); return `<span class="kat-badge ${k.c}">${k.i} ${k.n}</span>`; };
+    const isBaru = g => (Date.now() - (g.waktu || 0)) < 14 * 864e5;
+    const WA_ICON = '<svg class="wa-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>';
+    const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const PH = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360"><rect width="640" height="360" fill="#EBF1FF"/><text x="320" y="200" font-size="90" text-anchor="middle">🎮</text></svg>');
+    let tampilMax = 12;
     let GAMES = [], KOMENTAR = [], GALERI = [];
     let SETTINGS = {
       nama_pengembang: "Jamaluddin (Tretan Jamal)", bio_pengembang: "Guru & Pengembang Media Pembelajaran Interaktif.",
@@ -469,13 +499,11 @@
 
     let kategoriTerpilih = 'Semua', faseTerpilih = 'Semua', mapelTerpilih = 'Semua', modeSort = 'populer', kataKunci = '', panelFilterTerbuka = false;
 
-    document.addEventListener('contextmenu', e => e.preventDefault());
+    
     window.addEventListener('keydown', e => {
       const k = e.key.toUpperCase(), ctrl = e.ctrlKey || e.metaKey;
       if (ctrl && e.shiftKey && k === 'M') { e.preventDefault(); bukaModalLogin(); return; }
-      if (e.key === 'F12' || (ctrl && (k === 'U' || k === 'S' || k === 'P')) || (ctrl && e.shiftKey && (k === 'I' || k === 'J' || k === 'C'))) {
-        e.preventDefault(); tampilkanToast('Aksi ini dilindungi hak cipta.'); return false;
-      }
+      
     });
 
     async function initData() {
@@ -491,7 +519,7 @@
           const r = await fetch(API_URL), j = await r.json();
           if (j.ok) {
             if (Array.isArray(j.data) && j.data.length) {
-              GAMES = j.data.map(g => ({ ...g, kategori: g.kategori || g.mapel || 'Umum', fase: g.fase || 'Umum', mapel: g.mapel || g.kategori || 'Umum', sekolah: g.sekolah || 'Sekolah Penggerak', waktu: g.waktu || Date.now() }));
+              GAMES = j.data.map(g => ({ ...g, kategori: normKat(g.kategori), fase: g.fase || 'Umum', mapel: g.mapel || g.kategori || 'Umum', sekolah: g.sekolah || 'Sekolah Penggerak', waktu: g.waktu || Date.now() }));
               localStorage.setItem(STORAGE_KEY, JSON.stringify(GAMES));
             }
             if (Array.isArray(j.komentar)) KOMENTAR = j.komentar;
@@ -500,13 +528,13 @@
             if (j.settings) { SETTINGS = Object.assign(SETTINGS, j.settings); pasangDataPengaturan(); }
             renderSemua(); renderObrolan();
           }
-        } catch(e) { console.warn('Cache lokal aktif:', e); }
+        } catch(e) { console.warn('Cache lokal aktif:', e); renderSemua(); renderObrolan(); }
       }
     }
 
     async function sinkronisasiKeBackend(p) {
       if (!API_URL) return;
-      try { await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(p) }); } catch(e) {}
+      try { await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(ADMIN_TOKEN ? { ...p, token: ADMIN_TOKEN } : p) }); } catch(e) {}
     }
 
     function pasangDataPengaturan() {
@@ -582,8 +610,8 @@
 
     function renderFilters() {
       const wK = document.getElementById('wadahKategori'), wF = document.getElementById('wadahFase'), wM = document.getElementById('wadahMapel'), gA = GAMES.filter(g => !g.sembunyi);
-      const dK = ['Semua', ...new Set(gA.map(g => g.kategori || 'Umum'))], dF = ['Semua', ...new Set(gA.map(g => g.fase || 'Umum'))], dM = ['Semua', ...new Set(gA.map(g => g.mapel || 'Umum'))];
-      wK.innerHTML = dK.map(k => `<button class="chip ${kategoriTerpilih === k ? 'aktif' : ''}" onclick="pilihKategori('${k}')">${k}</button>`).join('');
+      const dK = ['Semua', ...KATEGORI.map(k => k.n)], dF = ['Semua', ...new Set(gA.map(g => g.fase || 'Umum'))], dM = ['Semua', ...new Set(gA.map(g => g.mapel || 'Umum'))];
+      wK.innerHTML = dK.map(k => `<button class="chip chip-kat ${kategoriTerpilih === k ? 'aktif' : ''}" onclick="pilihKategori('${k}')">${k === 'Semua' ? '✨ Semua' : katInfo(k).i + ' ' + k}</button>`).join('');
       wF.innerHTML = dF.map(f => `<button class="chip chip-fase ${faseTerpilih === f ? 'aktif' : ''}" onclick="pilihFase('${f}')">${f}</button>`).join('');
       wM.innerHTML = dM.map(m => `<button class="chip chip-mapel ${mapelTerpilih === m ? 'aktif' : ''}" onclick="pilihMapel('${m}')">${m}</button>`).join('');
     }
@@ -633,7 +661,7 @@
       const payload = {
         id: 'gm-' + Date.now().toString(36), judul: document.getElementById('ajukanJudul').value.trim(),
         fase: document.getElementById('ajukanFase').value, mapel: document.getElementById('ajukanMapel').value.trim(),
-        kategori: document.getElementById('ajukanMapel').value.trim(), creator: document.getElementById('ajukanCreator').value.trim(),
+        kategori: document.getElementById('ajukanKategori').value, creator: document.getElementById('ajukanCreator').value.trim(),
         sekolah: document.getElementById('ajukanSekolah').value.trim(), kontak: document.getElementById('ajukanKontak').value.trim(),
         url: document.getElementById('ajukanUrl').value.trim(), video: document.getElementById('ajukanVideo').value.trim(),
         thumbnail: document.getElementById('ajukanThumb').value.trim(), tujuan: document.getElementById('ajukanTujuan').value.trim(),
@@ -654,10 +682,10 @@
       w.innerHTML = pU.map(item => {
         const b = KOMENTAR.filter(x => x.parentId === item.id).sort((m, n) => m.waktu - n.waktu);
         return `<div class="chat-item">
-          <div class="chat-meta"><span class="chat-nama">${item.nama}</span><span class="chat-waktu">${new Date(item.waktu).toLocaleDateString('id-ID', {day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</span></div>
-          <div class="chat-pesan">${item.pesan}</div>
-          <span class="chat-balas-btn" onclick="siapkanBalasan('${item.id}', '${item.nama}')">↪ Balas Pesan</span>
-          ${b.length ? `<div class="chat-replies">${b.map(sub => `<div class="chat-reply-item"><div class="chat-meta"><span class="chat-nama" style="font-size:.8rem;color:var(--teal)">${sub.nama}</span><span class="chat-waktu">${new Date(sub.waktu).toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit'})}</span></div><div class="chat-pesan" style="font-size:.82rem">${sub.pesan}</div></div>`).join('')}</div>` : ''}
+          <div class="chat-meta"><span class="chat-nama">${esc(item.nama)}</span><span class="chat-waktu">${new Date(item.waktu).toLocaleDateString('id-ID', {day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</span></div>
+          <div class="chat-pesan">${esc(item.pesan)}</div>
+          <span class="chat-balas-btn" data-n="${esc(item.nama)}" onclick="siapkanBalasan('${esc(item.id)}', this.dataset.n)">↪ Balas Pesan</span>
+          ${b.length ? `<div class="chat-replies">${b.map(sub => `<div class="chat-reply-item"><div class="chat-meta"><span class="chat-nama" style="font-size:.8rem;color:var(--teal)">${esc(sub.nama)}</span><span class="chat-waktu">${new Date(sub.waktu).toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit'})}</span></div><div class="chat-pesan" style="font-size:.82rem">${esc(sub.pesan)}</div></div>`).join('')}</div>` : ''}
         </div>`;
       }).join('');
     }
@@ -680,20 +708,21 @@
       if (!g) { w.classList.remove('tampil'); w.innerHTML = ''; return; }
       w.classList.add('tampil');
       w.innerHTML = `<div class="sorotan-card">
-        <div class="sorotan-img-box"><img src="${g.thumbnail}" alt="${g.judul}" onerror="this.src='https://via.placeholder.com/640x360?text=Game+Edukasi'"></div>
+        <div class="sorotan-img-box"><img src="${g.thumbnail}" alt="${esc(g.judul)}" onerror="this.onerror=null;this.src=PH"></div>
         <div class="sorotan-detail">
-          <span class="badge-sorotan">⭐ GAME SOROTAN PEKAN INI</span>
-          <h2 style="font-size:1.8rem">${g.judul}</h2>
-          <p style="color:var(--tinta-soft);font-weight:600;font-size:.95rem">${g.deskripsi || 'Game pilihan dengan gameplay edukatif yang seru!'}</p>
+          <span class="badge-sorotan">⭐ SOROTAN</span>
+          <h2 style="font-size:1.8rem">${esc(g.judul)}</h2>
+          <p style="color:var(--tinta-soft);font-weight:600;font-size:.95rem">${esc(g.deskripsi || 'Pilihan kurator dengan pengalaman belajar yang seru!')}</p>
           <div style="display:flex;flex-direction:column;gap:2px;margin:2px 0 4px">
             <span style="font-size:.85rem;color:var(--tinta-soft)">Creator: <b style="color:var(--tinta)">${g.creator}</b></span>
             <span style="font-size:.82rem;font-weight:800;color:var(--teal)">${g.sekolah || 'Sekolah Penggerak'}</span>
           </div>
-          <div style="font-size:.8rem;font-weight:800;color:var(--indigo)">${g.kategori || 'Umum'} · ${g.fase || 'Umum'} · ${g.mapel || 'Umum'}</div>
+          <div style="font-size:.8rem;font-weight:800;color:var(--indigo)">${katInfo(g.kategori).i} ${normKat(g.kategori)} · ${esc(g.fase || 'Umum')} · ${esc(g.mapel || 'Umum')}</div>
           <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px">
-            <button class="btn btn-utama" onclick="mainkanGame('${g.id}','${g.url}')">▶ Mainkan Sekarang</button>
+            <button class="btn btn-utama" onclick="mainkanGame('${g.id}')">▶ Mainkan Sekarang</button>
             ${g.video ? `<button class="btn btn-sm btn-rose" onclick="bukaTutorialVideo('${g.id}')">📺 Tutorial</button>` : ''}
             <button class="btn btn-sm btn-teal" onclick="bukaModalTujuan('${g.id}')">🎯 Tujuan</button>
+            <button class="btn btn-sm btn-wa" onclick="bagikanWA('${g.id}')">${WA_ICON} Bagikan ke WA</button>
             <span style="font-weight:800;font-size:.85rem;color:var(--tinta-soft);margin-left:auto">👁️ ${g.clicks || 0}x dimainkan</span>
           </div>
         </div>
@@ -702,27 +731,49 @@
 
     function renderGrid() {
       const gd = document.getElementById('gridGame');
-      let f = GAMES.filter(g => !g.sembunyi && (kategoriTerpilih === 'Semua' || (g.kategori || 'Umum') === kategoriTerpilih) && (faseTerpilih === 'Semua' || (g.fase || 'Umum') === faseTerpilih) && (mapelTerpilih === 'Semua' || (g.mapel || 'Umum') === mapelTerpilih) && (g.judul.toLowerCase().includes(kataKunci) || g.creator.toLowerCase().includes(kataKunci) || (g.sekolah && g.sekolah.toLowerCase().includes(kataKunci)) || (g.deskripsi && g.deskripsi.toLowerCase().includes(kataKunci))));
+      let f = GAMES.filter(g => !g.sembunyi && (kategoriTerpilih === 'Semua' || normKat(g.kategori) === kategoriTerpilih) && (faseTerpilih === 'Semua' || (g.fase || 'Umum') === faseTerpilih) && (mapelTerpilih === 'Semua' || (g.mapel || 'Umum') === mapelTerpilih) && (g.judul.toLowerCase().includes(kataKunci) || g.creator.toLowerCase().includes(kataKunci) || (g.sekolah && g.sekolah.toLowerCase().includes(kataKunci)) || (g.deskripsi && g.deskripsi.toLowerCase().includes(kataKunci))));
       f.sort((a, b) => modeSort === 'populer' ? (b.clicks || 0) - (a.clicks || 0) : (b.waktu || 0) - (a.waktu || 0));
       if (!f.length) { gd.innerHTML = '<div class="empty-state"><div class="icon">🔍</div><h3 style="font-size:1.3rem">Game Belum Ditemukan</h3><p style="color:var(--tinta-soft);font-weight:700">Coba sesuaikan pilihan filter atau kata kunci pencarian Anda.</p></div>'; return; }
-      gd.innerHTML = f.map(g => `<article class="kartu">
-        <div class="kartu-thumb"><img src="${g.thumbnail}" alt="${g.judul}" loading="lazy" onerror="this.src='https://via.placeholder.com/640x360?text=Preview+Game'"><span class="badge-counter ${(g.clicks || 0) < 5 ? 'baru' : ''}">${(g.clicks || 0) < 5 ? '✨ Baru' : '👁️ ' + g.clicks + 'x'}</span></div>
+      const sisa = f.length - tampilMax; gd.innerHTML = f.slice(0, tampilMax).map(g => `<article class="kartu" id="kartu-${g.id}">
+        <div class="kartu-thumb"><img src="${g.thumbnail}" alt="${esc(g.judul)}" loading="lazy" onerror="this.onerror=null;this.src=PH">${katBadge(g)}${isBaru(g) ? '<span class="badge-counter baru">✨ Baru</span>' : ''}</div>
         <div class="kartu-isi">
-          <div class="kartu-tags-wrapper"><span class="kartu-tag tag-kat">${g.kategori || 'Umum'}</span><span class="kartu-tag tag-fase">${g.fase || 'Fase'}</span><span class="kartu-tag tag-mapel">${g.mapel || 'Mapel'}</span></div>
-          <h3 class="kartu-judul">${g.judul}</h3>
-          <div class="kartu-meta"><div class="kartu-creator-wrap"><span class="kartu-creator-nama">Creator: <b>${g.creator}</b></span><span class="kartu-creator-sekolah">${g.sekolah || 'Sekolah Penggerak'}</span></div><div class="kartu-counter-teks">👁️ <b>${g.clicks || 0}</b>x</div></div>
+          <div class="kartu-tags-wrapper"><span class="kartu-tag tag-fase">${esc(g.fase || 'Fase')}</span><span class="kartu-tag tag-mapel">${esc(g.mapel || 'Mapel')}</span></div>
+          <h3 class="kartu-judul">${esc(g.judul)}</h3>
+          <div class="kartu-meta"><div class="kartu-creator-wrap"><span class="kartu-creator-nama">Creator: <b>${esc(g.creator)}</b></span><span class="kartu-creator-sekolah">${esc(g.sekolah || 'Sekolah Penggerak')}</span></div><div class="kartu-counter-teks">👁️ <b>${g.clicks || 0}</b>x</div></div>
           <div class="kartu-aksi">
-            <button class="btn btn-sm btn-utama" onclick="mainkanGame('${g.id}', '${g.url}')">Mainkan Sekarang ↗</button>
-            <div class="kartu-sub-aksi">
-              ${g.video ? `<button class="btn btn-sm btn-rose" onclick="bukaTutorialVideo('${g.id}')">📺 Tutorial</button>` : ''}
-              <button class="btn btn-sm btn-teal" onclick="bukaModalTujuan('${g.id}')">🎯 Tujuan</button>
-            </div>
+          <button class="btn btn-sm btn-utama" style="font-size:.9rem;padding:7px 12px" onclick="mainkanGame('${g.id}')">▶ Mainkan</button>
+          <div class="kartu-sub-aksi">
+            ${g.video ? `<button class="btn btn-sm btn-rose" onclick="bukaTutorialVideo('${g.id}')">📺 Tutorial</button>` : ''}
+            <button class="btn btn-sm btn-teal" onclick="bukaModalTujuan('${g.id}')">🎯 Tujuan</button>
+            <button class="btn btn-sm btn-wa" onclick="bagikanWA('${g.id}')" aria-label="Bagikan ke WhatsApp">${WA_ICON} Bagikan</button>
           </div>
         </div>
-      </article>`).join('');
+      </article>`).join('') + (sisa > 0 ? `<div style="grid-column:1/-1;text-align:center"><button class="btn btn-putih" onclick="tampilMax+=12;renderGrid()">Muat ${Math.min(12, sisa)} lagi (${sisa} tersisa)</button></div>` : '');
+      bukaDeepLink();
     }
 
+    function bagikanWA(id) {
+      const g = GAMES.find(x => x.id === id); if (!g) return; SoundEffects.klik();
+      const url = location.origin + location.pathname + '?game=' + encodeURIComponent(g.id);
+      const teks = `🎮 *${g.judul}*\n${katInfo(g.kategori).i} ${normKat(g.kategori)} • ${g.fase || 'Umum'} • ${g.mapel || 'Umum'}\nOleh ${g.creator}${g.sekolah ? ' (' + g.sekolah + ')' : ''}\n\nMainkan di sini 👇\n${url}`;
+      window.open('https://wa.me/?text=' + encodeURIComponent(teks), '_blank', 'noopener,noreferrer');
+    }
+    let deepDone = false;
+    function bukaDeepLink() {
+      if (deepDone) return;
+      const id = new URLSearchParams(location.search).get('game');
+      if (!id) { deepDone = true; return; }
+      if (!GAMES.some(x => x.id === id && !x.sembunyi)) return;
+      deepDone = true; tampilMax = 9999; renderGrid();
+      setTimeout(() => {
+        const el = document.getElementById('kartu-' + id); if (!el) return;
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.style.outline = '4px solid var(--amber)'; setTimeout(() => el.style.outline = '', 2600);
+      }, 150);
+    }
     function mainkanGame(id, u) {
+      const gg = GAMES.find(x => x.id === id); u = u || (gg && gg.url);
+      if (!/^https?:\/\//i.test(u || '')) { tampilkanToast('Link game tidak valid.'); return; }
       SoundEffects.bukaGame(); window.open(u, '_blank', 'noopener,noreferrer');
       const i = GAMES.findIndex(g => g.id === id);
       if (i !== -1) {
@@ -753,12 +804,15 @@
 
     function bukaModalLogin() { SoundEffects.klik(); bukaModal('modalLogin'); setTimeout(() => document.getElementById('inputSandi').focus(), 150); }
     
-    // VERIFIKASI SANDI BARU: 'ninjasaga'
-    document.getElementById('formLogin').addEventListener('submit', e => {
-      e.preventDefault();
-      if (document.getElementById('inputSandi').value === PASS_DEFAULT) {
-        SoundEffects.sukses(); tutupModal('modalLogin'); document.getElementById('inputSandi').value = ''; bukaModalAdminDashboard(); tampilkanToast('Selamat datang Admin!');
-      } else { SoundEffects.error(); tampilkanToast('Kata sandi salah!'); }
+    // Verifikasi sandi dilakukan di server (Apps Script)
+    document.getElementById('formLogin').addEventListener('submit', async e => {
+      e.preventDefault(); const t = document.getElementById('inputSandi').value;
+      try {
+        const r = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: 'auth', token: t }) });
+        const j = await r.json();
+        if (j.ok) { ADMIN_TOKEN = t; SoundEffects.sukses(); tutupModal('modalLogin'); document.getElementById('inputSandi').value = ''; bukaModalAdminDashboard(); tampilkanToast('Selamat datang Admin!'); return; }
+      } catch (err) {}
+      SoundEffects.error(); tampilkanToast('Kata sandi salah atau server tidak terjangkau.');
     });
 
     function bukaModalAdminDashboard() { bukaModal('modalAdmin'); pindahTabAdmin('form'); renderAdminList(); renderAdminGaleriList(); }
@@ -898,6 +952,7 @@
       w.innerHTML = GAMES.map(g => `<div class="admin-list-item">
         <div class="admin-list-info"><b>${g.judul} ${g.sorot ? '⭐' : ''} ${g.sembunyi ? '👁️‍🗨️ (Draft / Ajuan)' : ''}</b><small>${g.creator} · ${g.sekolah || '-'} · ${g.fase || '-'} · <b>${g.clicks || 0} Klik</b></small></div>
         <div class="admin-actions">
+          ${g.sembunyi ? `<button class="btn btn-sm btn-emerald" onclick="setujuiGame('${g.id}')" title="Setujui & tayangkan">✅ Setujui</button>` : ''}
           <button class="btn btn-sm btn-amber" onclick="resetCounterGame('${g.id}')" title="Reset Counter">🔄 0</button>
           <button class="btn btn-sm btn-putih" onclick="editGame('${g.id}')" title="Ubah Data">✏️</button>
           <button class="btn btn-sm btn-rose" onclick="hapusGame('${g.id}')" title="Hapus Game">🗑️</button>
@@ -905,9 +960,34 @@
       </div>`).join('');
     }
 
+async function setujuiGame(id) {
+      const g = GAMES.find(x => x.id === id); if (!g) return;
+      if (!confirm(`Setujui & tayangkan "${g.judul}"?\nPengaju akan diberi tahu (email otomatis / WhatsApp).`)) return;
+      g.sembunyi = false; localStorage.setItem(STORAGE_KEY, JSON.stringify(GAMES)); renderSemua(); renderAdminList();
+      const box = document.getElementById('hasilSetuju'); let info = null;
+      try {
+        const r = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: 'setujui', gameId: id, token: ADMIN_TOKEN }) });
+        info = await r.json();
+      } catch (e) {}
+      if (!info || !info.ok) { box.innerHTML = ''; tampilkanToast('Gagal terhubung ke server. Coba lagi.'); return; }
+      SoundEffects.sukses();
+      const kotak = (warna, isi) => `<div style="background:${warna};border:2px solid var(--tinta);border-radius:var(--r-md);padding:12px 14px;margin-bottom:12px;font-weight:700;font-size:.88rem">${isi}</div>`;
+      if (info.dilewati) { box.innerHTML = ''; tampilkanToast('Game ditayangkan.'); return; }
+      if (info.tipe === 'email') {
+        box.innerHTML = kotak(info.emailTerkirim ? '#D1FAE5' : '#FEE2E2', info.emailTerkirim ? `✅ Disetujui. Email pemberitahuan terkirim ke <b>${esc(info.kontak)}</b>.` : `⚠️ Disetujui, tetapi email ke <b>${esc(info.kontak)}</b> gagal terkirim.`);
+      } else if (info.tipe === 'wa') {
+        let n = info.kontak.replace(/\D/g, ''); if (n.startsWith('0')) n = '62' + n.slice(1); else if (n.startsWith('8')) n = '62' + n;
+        const link = location.origin + location.pathname + '?game=' + encodeURIComponent(id);
+        const teks = `Halo ${info.creator}, kabar baik! Karya Anda "${info.judul}" sudah disetujui dan tayang di portal Game Interaktif: ${link}\n\nTerima kasih sudah berkontribusi 🙏`;
+        box.innerHTML = kotak('#D1FAE5', `✅ Disetujui. Kontak pengaju berupa nomor WhatsApp.<br><a class="btn btn-sm btn-wa" style="margin-top:8px" target="_blank" rel="noopener noreferrer" href="https://wa.me/${n}?text=${encodeURIComponent(teks)}">${WA_ICON} Kirim kabar ke ${esc(info.creator)}</a>`);
+      } else {
+        box.innerHTML = kotak('#FEF3C7', `✅ Disetujui. Kontak pengaju (bukan email/nomor): <b>${esc(info.kontak || '-')}</b>`);
+      }
+    }
+
     function editGame(id) {
       const g = GAMES.find(x => x.id === id); if (!g) return;
-      document.getElementById('editGameId').value = g.id; document.getElementById('inJudul').value = g.judul; document.getElementById('inKategori').value = g.kategori || '';
+      document.getElementById('editGameId').value = g.id; document.getElementById('inJudul').value = g.judul; document.getElementById('inKategori').value = normKat(g.kategori);
       document.getElementById('inFase').value = g.fase || 'Umum'; document.getElementById('inMapel').value = g.mapel || ''; document.getElementById('inCreator').value = g.creator;
       document.getElementById('inSekolah').value = g.sekolah || ''; document.getElementById('inUrl').value = g.url; document.getElementById('inThumb').value = g.thumbnail;
       document.getElementById('inVideo').value = g.video || ''; document.getElementById('inTujuan').value = g.tujuan || ''; document.getElementById('inDeskripsi').value = g.deskripsi || '';
