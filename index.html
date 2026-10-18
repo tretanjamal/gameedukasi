@@ -213,6 +213,21 @@
     .footer{background:var(--tinta);border-top:3px solid var(--amber)}
     .footer p{color:#C7D2FE}.footer b{color:#fff}
     .titik-rahasia::after{background:#fff}
+  
+    .bagian-game{margin-bottom:34px}
+    .bagian-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;margin:6px 0 16px;padding-bottom:10px;border-bottom:3px solid var(--tinta)}
+    .bagian-head h2{font-size:1.5rem}
+    .bagian-head p{flex:1 1 220px;color:var(--tinta-soft);font-weight:700;font-size:.9rem}
+    .bagian-jml{background:var(--tinta);color:#fff;border-radius:999px;padding:2px 12px;font-size:.8rem;font-weight:800}
+    #bagianKontributor .bagian-head{border-bottom-style:dashed}
+  
+    .sorotan-nav{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:14px}
+    .sorotan-panah{width:38px;height:38px;border-radius:50%;border:var(--b-tb);background:var(--putih);font-size:1.4rem;font-weight:900;line-height:1;cursor:pointer;box-shadow:var(--sh-sm)}
+    .sorotan-titik{display:flex;gap:8px}
+    .sorotan-titik button{width:12px;height:12px;border-radius:50%;border:2px solid var(--tinta);background:var(--putih);padding:0;cursor:pointer}
+    .sorotan-titik button.aktif{background:var(--tinta);width:28px;border-radius:999px}
+  
+    .galeri-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:10px;margin-bottom:14px}
   </style>
 </head>
 <body>
@@ -263,7 +278,16 @@
     </div>
   </section>
   
-  <main class="bungkus"><div class="game-grid" id="gridGame"><div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div></div></main>
+  <main class="bungkus">
+    <section class="bagian-game" id="bagianKurator">
+      <div class="bagian-head"><h2>⭐ Pilihan Kurator</h2><p>Dipilih dan diuji langsung oleh pengelola portal.</p><span class="bagian-jml" id="jmlKurator"></span></div>
+      <div class="game-grid" id="gridKurator"><div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div></div>
+    </section>
+    <section class="bagian-game" id="bagianKontributor">
+      <div class="bagian-head"><h2>🌱 Karya Kontributor</h2><p>Dikirim oleh guru dan kontributor umum, ditinjau pengelola sebelum tayang.</p><span class="bagian-jml" id="jmlKontributor"></span></div>
+      <div class="game-grid" id="gridKontributor"></div>
+    </section>
+  </main>
   <div class="bungkus" id="wadahAdsense"></div>
 
   <!-- PERCAKAPAN & DISKUSI -->
@@ -291,11 +315,14 @@
   </section>
 
   <!-- GALERI AKTIVITAS -->
-  <section class="bungkus galeri-section" id="wadahSectionGaleri" style="display:none">
-    <div style="margin-bottom:14px">
-      <span class="galeri-header-badge">DOKUMENTASI KELAS</span>
-      <h3 style="font-size:1.35rem">📸 Galeri Aktivitas</h3>
-      <p style="font-size:.8rem;font-weight:700;color:var(--tinta-soft)">Dokumentasi pembelajaran interaktif di sekolah. Geser dan klik foto untuk memperbesar tampilan.</p>
+  <section class="bungkus galeri-section" id="wadahSectionGaleri">
+    <div class="galeri-head">
+      <div>
+        <span class="galeri-header-badge">DOKUMENTASI KELAS</span>
+        <h3 style="font-size:1.35rem">📸 Galeri Aktivitas</h3>
+        <p style="font-size:.8rem;font-weight:700;color:var(--tinta-soft)">Dokumentasi pembelajaran interaktif dari sekolah dan kontributor. Klik foto untuk memperbesar.</p>
+      </div>
+      <button class="btn btn-sm btn-emerald" onclick="bukaModalKirimFoto()">📤 Kirim Foto Kegiatan</button>
     </div>
     <div class="galeri-scroll" id="wadahDaftarGaleri"></div>
   </section>
@@ -361,6 +388,24 @@
   </div>
 
   <!-- MODAL PENGAJUAN GAME DARI PENGUNJUNG -->
+  <!-- KIRIM FOTO GALERI DARI PENGUNJUNG -->
+  <div class="overlay" id="modalKirimFoto">
+    <div class="modal-box">
+      <div class="modal-header"><h3>📤 Kirim Foto Kegiatan</h3><button class="btn btn-sm btn-putih" onclick="tutupModal('modalKirimFoto')">✕</button></div>
+      <form id="formKirimFoto" class="modal-body">
+        <p style="font-size:.82rem;font-weight:700;color:var(--tinta-soft);margin-bottom:14px">Foto akan ditinjau admin sebelum tampil di galeri. Pastikan foto tidak menampilkan wajah siswa tanpa izin orang tua/wali.</p>
+        <div class="field-group"><label>Foto Kegiatan *</label><input type="file" id="kfFile" accept="image/*"></div>
+        <div id="kfPreviewBox" style="display:none;margin-bottom:12px"><img id="kfPreview" alt="Pratinjau foto" style="max-width:100%;max-height:220px;border:var(--b-tb);border-radius:var(--r-md)"></div>
+        <div class="field-group"><label>Judul Kegiatan *</label><input type="text" id="kfJudul" required maxlength="80" placeholder="Contoh: Siswa Kelas 7 Bermain Kuis IPA"></div>
+        <div class="field-group"><label>Keterangan Singkat</label><input type="text" id="kfDeskripsi" maxlength="160" placeholder="Ceritakan singkat kegiatannya"></div>
+        <div class="field-group"><label>Nama Pengirim / Sekolah *</label><input type="text" id="kfNama" required maxlength="40" placeholder="Contoh: Bu Rina, SDN 1 Surabaya"></div>
+        <input type="text" id="kfWeb" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0">
+        <label style="display:flex;gap:8px;align-items:flex-start;font-size:.82rem;font-weight:700;margin:6px 0 14px"><input type="checkbox" id="kfSetuju" required style="margin-top:3px"><span>Saya berhak membagikan foto ini dan sudah mendapat izin dari orang yang tampak di dalamnya.</span></label>
+        <button type="submit" class="btn btn-utama" id="btnKirimFoto" style="width:100%">Kirim Foto</button>
+      </form>
+    </div>
+  </div>
+
   <div class="overlay" id="modalAjukan">
     <div class="modal-box">
       <div class="modal-header"><h3>🚀 Ajukan Game / Media Pembelajaran</h3><button class="btn btn-sm btn-putih" onclick="tutupModal('modalAjukan')">✕</button></div>
@@ -427,6 +472,7 @@
           <div class="field-group"><label>Judul Permainan *</label><input type="text" id="inJudul" required placeholder="Contoh: Petualangan Angka Pintar"></div>
           <div class="grid-2">
             <div class="field-group"><label>Kategori Utama *</label><select id="inKategori" required><option>Gim Edukasi</option><option>MPI</option><option>Lab Maya</option></select></div>
+            <div class="field-group"><label>Bagian Portal *</label><select id="inSumber"><option value="kurator">⭐ Pilihan Kurator</option><option value="kontributor">🌱 Karya Kontributor</option></select></div>
             <div class="field-group">
               <label>Fase Kurikulum *</label>
               <select id="inFase" required>
@@ -462,6 +508,7 @@
 
         <!-- Tab 3: Kelola Galeri (Mendukung Upload Langsung dari Device & Input Link) -->
         <div id="panelGaleriAdmin" style="display:none">
+          <div id="galeriMenunggu"></div>
           <form id="formTambahGaleri" style="background:var(--bg);padding:14px;border:2px solid var(--tinta);border-radius:var(--r-md);margin-bottom:18px">
             <h4 style="font-size:1rem;margin-bottom:10px;color:var(--indigo)">➕ Tambah Dokumentasi Galeri</h4>
             <div class="field-group"><label>Judul Kegiatan / Foto *</label><input type="text" id="inGaleriJudul" required placeholder="Contoh: Belajar Pecahan di Papan Interaktif"></div>
@@ -495,10 +542,11 @@
   </div>
 
   <script>
-    const API_URL = 'https://script.google.com/macros/s/AKfycbxH2lNzesLGk0HLZ1Fdk3imzATZbedALI1wd-2IGEBDYcbvOccux_mP4xuR_jc5Lc9kWw/exec';
+    const API_URL = 'https://script.google.com/macros/s/AKfycbxV3dQ5zJREtkzDTyUQ-WCABYGOqOI-HZH8Pc-YJkrpXB6WdoxeERlWt6bUBF3pZ4G8DA/exec';
     let ADMIN_TOKEN = ''; const STORAGE_KEY = 'eduplay_games_data_v1';
 
     const KATEGORI = [{n:'Gim Edukasi',i:'🎮',c:'kat-gim'},{n:'MPI',i:'📚',c:'kat-mpi'},{n:'Lab Maya',i:'🧪',c:'kat-lab'}];
+    const normSumber = x => String(x || '').toLowerCase() === 'kontributor' ? 'kontributor' : 'kurator';
     const normKat = k => (KATEGORI.find(x => x.n.toLowerCase() === String(k || '').trim().toLowerCase()) || KATEGORI[0]).n;
     const katInfo = k => KATEGORI.find(x => x.n === normKat(k));
     const katBadge = g => { const k = katInfo(g.kategori); return `<span class="kat-badge ${k.c}">${k.i} ${k.n}</span>`; };
@@ -506,7 +554,7 @@
     const WA_ICON = '<svg class="wa-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>';
     const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     const PH = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360"><rect width="640" height="360" fill="#EBF1FF"/><text x="320" y="200" font-size="90" text-anchor="middle">🎮</text></svg>');
-    let tampilMax = 12;
+    const tampil = { kurator: 12, kontributor: 12 };
     let GAMES = [], KOMENTAR = [], GALERI = [];
     let SETTINGS = {
       nama_pengembang: "Jamaluddin (Tretan Jamal)", bio_pengembang: "Guru & Pengembang Media Pembelajaran Interaktif.",
@@ -536,7 +584,7 @@
           const r = await fetch(API_URL), j = await r.json();
           if (j.ok) {
             if (Array.isArray(j.data) && j.data.length) {
-              GAMES = j.data.map(g => ({ ...g, kategori: normKat(g.kategori), fase: g.fase || 'Umum', mapel: g.mapel || g.kategori || 'Umum', sekolah: g.sekolah || 'Sekolah Penggerak', waktu: g.waktu || Date.now() }));
+              GAMES = j.data.map(g => ({ ...g, kategori: normKat(g.kategori), sumber: normSumber(g.sumber), fase: g.fase || 'Umum', mapel: g.mapel || g.kategori || 'Umum', sekolah: g.sekolah || 'Sekolah Penggerak', waktu: g.waktu || Date.now() }));
               localStorage.setItem(STORAGE_KEY, JSON.stringify(GAMES));
             }
             if (Array.isArray(j.komentar)) KOMENTAR = j.komentar;
@@ -551,7 +599,7 @@
 
     async function sinkronisasiKeBackend(p) {
       if (!API_URL) return;
-      try { await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(ADMIN_TOKEN ? { ...p, token: ADMIN_TOKEN } : p) }); } catch(e) {}
+      try { const r = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(ADMIN_TOKEN ? { ...p, token: ADMIN_TOKEN } : p) }); return await r.json(); } catch(e) {}
     }
 
     function pasangDataPengaturan() {
@@ -577,20 +625,106 @@
 
     function renderGaleri() {
       const sec = document.getElementById('wadahSectionGaleri'), w = document.getElementById('wadahDaftarGaleri');
-      if (!GALERI || !GALERI.length) { sec.style.display = 'none'; return; }
       sec.style.display = 'block';
-      w.innerHTML = GALERI.map(item => `
-        <div class="galeri-item" onclick="bukaZoomFoto('${item.url}', '${item.judul || ''}')">
+      if (!GALERI || !GALERI.length) { w.innerHTML = '<p style="padding:18px 6px;font-weight:700;color:var(--tinta-soft)">Belum ada foto. Jadilah yang pertama berbagi dokumentasi kegiatan belajar!</p>'; return; }
+      const aman = u => /^(https?:\/\/|data:image\/)/i.test(u || '') ? u : '';
+      w.innerHTML = GALERI.map((item, i) => `
+        <div class="galeri-item" onclick="bukaZoomFoto(GALERI[${i}].url, captionFoto(${i}))">
           <div class="galeri-item-thumb">
-            <img src="${item.url}" alt="${item.judul || 'Foto Dokumentasi'}" loading="lazy">
+            <img src="${esc(aman(item.url))}" alt="${esc(item.judul || 'Foto Dokumentasi')}" loading="lazy" onerror="this.onerror=null;this.src=PH">
             <span class="galeri-zoom-badge">🔍 Zoom</span>
           </div>
           <div class="galeri-info">
-            <b>${item.judul || 'Dokumentasi Belajar'}</b>
-            <small>${item.deskripsi || 'Kegiatan Papan Interaktif'}</small>
+            <b>${esc(item.judul || 'Dokumentasi Belajar')}</b>
+            <small>${esc(item.deskripsi || 'Kegiatan Papan Interaktif')}${item.pengirim && item.pengirim !== 'Admin' ? ' · 📷 ' + esc(item.pengirim) : ''}</small>
           </div>
-        </div>
-      `).join('');
+        </div>`).join('');
+    }
+    function captionFoto(i) { const g = GALERI[i] || {}; return (g.judul || '') + (g.pengirim && g.pengirim !== 'Admin' ? ' — oleh ' + g.pengirim : ''); }
+
+    // ===== Kontribusi foto oleh pengunjung =====
+    function kompresFoto(file, maxDim = 1200) {
+      return new Promise((ok, gagal) => {
+        const rd = new FileReader();
+        rd.onerror = () => gagal(new Error('baca'));
+        rd.onload = ev => {
+          const img = new Image();
+          img.onerror = () => gagal(new Error('gambar'));
+          img.onload = () => {
+            let w = img.width, h = img.height;
+            if (w > maxDim || h > maxDim) { if (w > h) { h = Math.round(h * maxDim / w); w = maxDim; } else { w = Math.round(w * maxDim / h); h = maxDim; } }
+            const c = document.createElement('canvas'); c.width = w; c.height = h;
+            c.getContext('2d').drawImage(img, 0, 0, w, h);
+            ok(c.toDataURL('image/jpeg', 0.8));
+          };
+          img.src = ev.target.result;
+        };
+        rd.readAsDataURL(file);
+      });
+    }
+    let fotoKirim = '';
+    function bukaModalKirimFoto() {
+      SoundEffects.klik(); document.getElementById('formKirimFoto').reset(); fotoKirim = '';
+      document.getElementById('kfPreviewBox').style.display = 'none'; bukaModal('modalKirimFoto');
+    }
+    document.getElementById('kfFile').addEventListener('change', async e => {
+      const f = e.target.files[0]; if (!f) return;
+      if (!/^image\//.test(f.type)) { tampilkanToast('Pilih file gambar.'); e.target.value = ''; return; }
+      try { fotoKirim = await kompresFoto(f); document.getElementById('kfPreview').src = fotoKirim; document.getElementById('kfPreviewBox').style.display = 'block'; }
+      catch (err) { fotoKirim = ''; tampilkanToast('Gambar tidak bisa dibaca.'); }
+    });
+    document.getElementById('formKirimFoto').addEventListener('submit', async e => {
+      e.preventDefault();
+      if (!fotoKirim) { tampilkanToast('Pilih foto terlebih dahulu.'); return; }
+      const btn = document.getElementById('btnKirimFoto'); btn.disabled = true; btn.textContent = 'Mengirim...';
+      try {
+        const r = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: 'kirim_galeri', galeri: {
+          judul: document.getElementById('kfJudul').value.trim(), deskripsi: document.getElementById('kfDeskripsi').value.trim(),
+          pengirim: document.getElementById('kfNama').value.trim(), website: document.getElementById('kfWeb').value, foto: fotoKirim } }) });
+        const j = await r.json();
+        if (j.ok) { SoundEffects.sukses(); tutupModal('modalKirimFoto'); tampilkanToast('Terima kasih! Foto akan tampil setelah ditinjau admin.'); }
+        else { SoundEffects.error(); tampilkanToast(j.error || 'Gagal mengirim foto.'); }
+      } catch (err) { SoundEffects.error(); tampilkanToast('Gagal terhubung ke server.'); }
+      btn.disabled = false; btn.textContent = 'Kirim Foto';
+    });
+
+    // ===== Moderasi foto (admin) =====
+    let FOTO_TUNGGU = [];
+    async function panggilAdmin(p) {
+      const r = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ ...p, token: ADMIN_TOKEN }) });
+      return r.json();
+    }
+    async function muatGaleriMenunggu() {
+      const box = document.getElementById('galeriMenunggu'); if (!box || !ADMIN_TOKEN) return;
+      try {
+        const j = await panggilAdmin({ action: 'galeri_menunggu' }); if (!j.ok) return;
+        FOTO_TUNGGU = j.data || [];
+        box.innerHTML = FOTO_TUNGGU.length ? `<h4 style="font-size:1rem;margin-bottom:10px;color:var(--rose)">⏳ Menunggu Persetujuan (${FOTO_TUNGGU.length})</h4>` + FOTO_TUNGGU.map((g, i) => `
+          <div class="admin-list-item">
+            <div style="display:flex;align-items:center;gap:10px;min-width:0">
+              <img src="${esc(g.url)}" onclick="bukaZoomFoto(FOTO_TUNGGU[${i}].url, FOTO_TUNGGU[${i}].judul)" style="width:56px;height:56px;border-radius:8px;object-fit:cover;border:1.5px solid var(--tinta);cursor:zoom-in">
+              <div class="admin-list-info"><b>${esc(g.judul)}</b><small>Dari: ${esc(g.pengirim)} · ${esc(g.deskripsi || '-')}</small></div>
+            </div>
+            <div class="admin-actions">
+              <button class="btn btn-sm btn-emerald" onclick="setujuiFoto('${esc(g.id)}')" title="Setujui">✅</button>
+              <button class="btn btn-sm btn-rose" onclick="tolakFoto('${esc(g.id)}')" title="Tolak & hapus">🗑️</button>
+            </div>
+          </div>`).join('') + '<hr style="margin:16px 0;border:1px dashed var(--tinta)">' : '';
+      } catch (e) {}
+    }
+    async function setujuiFoto(id) {
+      const g = FOTO_TUNGGU.find(x => x.id === id); if (!g) return;
+      try {
+        const j = await panggilAdmin({ action: 'setujui_galeri', galeriId: id });
+        if (!j.ok) { tampilkanToast('Gagal menyetujui foto.'); return; }
+        GALERI.unshift({ id: g.id, judul: g.judul, url: g.url, deskripsi: g.deskripsi, pengirim: g.pengirim });
+        renderGaleri(); renderAdminGaleriList(); SoundEffects.sukses(); tampilkanToast('Foto disetujui dan tayang di galeri.');
+      } catch (e) { tampilkanToast('Gagal terhubung ke server.'); }
+    }
+    async function tolakFoto(id) {
+      if (!confirm('Tolak dan hapus foto ini?')) return;
+      try { const j = await panggilAdmin({ action: 'delete_galeri', galeriId: id }); tampilkanToast(j.ok ? 'Foto dihapus.' : 'Gagal menghapus.'); } catch (e) { tampilkanToast('Gagal terhubung ke server.'); }
+      muatGaleriMenunggu();
     }
 
     function bukaZoomFoto(url, caption) {
@@ -682,7 +816,7 @@
         sekolah: document.getElementById('ajukanSekolah').value.trim(), kontak: document.getElementById('ajukanKontak').value.trim(),
         url: document.getElementById('ajukanUrl').value.trim(), video: document.getElementById('ajukanVideo').value.trim(),
         thumbnail: document.getElementById('ajukanThumb').value.trim(), tujuan: document.getElementById('ajukanTujuan').value.trim(),
-        deskripsi: document.getElementById('ajukanDeskripsi').value.trim(), sorot: false, sembunyi: true, clicks: 0, waktu: Date.now()
+        deskripsi: document.getElementById('ajukanDeskripsi').value.trim(), sorot: false, sembunyi: true, sumber: 'kontributor', clicks: 0, waktu: Date.now()
       };
       try {
         await sinkronisasiKeBackend({ action: 'ajukan', game: payload });
@@ -720,19 +854,16 @@
       finally { btn.disabled = false; btn.textContent = 'Kirim Pesan 🚀'; }
     });
 
-    function renderSorotan() {
-      const w = document.getElementById('wadahSorotan'), g = GAMES.find(x => x.sorot && !x.sembunyi);
-      if (!g) { w.classList.remove('tampil'); w.innerHTML = ''; return; }
-      w.classList.add('tampil');
-      w.innerHTML = `<div class="sorotan-card">
+    let sorotanIdx = 0, sorotanTimer = null, jedaSorotan = false;
+    const sorotanHTML = g => `<div class="sorotan-card">
         <div class="sorotan-img-box"><img src="${g.thumbnail}" alt="${esc(g.judul)}" onerror="this.onerror=null;this.src=PH"></div>
         <div class="sorotan-detail">
           <span class="badge-sorotan">⭐ SOROTAN</span>
           <h2 style="font-size:1.8rem">${esc(g.judul)}</h2>
           <p style="color:var(--tinta-soft);font-weight:600;font-size:.95rem">${esc(g.deskripsi || 'Pilihan kurator dengan pengalaman belajar yang seru!')}</p>
           <div style="display:flex;flex-direction:column;gap:2px;margin:2px 0 4px">
-            <span style="font-size:.85rem;color:var(--tinta-soft)">Creator: <b style="color:var(--tinta)">${g.creator}</b></span>
-            <span style="font-size:.82rem;font-weight:800;color:var(--teal)">${g.sekolah || 'Sekolah Penggerak'}</span>
+            <span style="font-size:.85rem;color:var(--tinta-soft)">Creator: <b style="color:var(--tinta)">${esc(g.creator)}</b></span>
+            <span style="font-size:.82rem;font-weight:800;color:var(--teal)">${esc(g.sekolah || 'Sekolah Penggerak')}</span>
           </div>
           <div style="font-size:.8rem;font-weight:800;color:var(--indigo)">${katInfo(g.kategori).i} ${normKat(g.kategori)} · ${esc(g.fase || 'Umum')} · ${esc(g.mapel || 'Umum')}</div>
           <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px">
@@ -744,14 +875,33 @@
           </div>
         </div>
       </div>`;
+    function tampilSorotan(i) {
+      const sl = document.querySelectorAll('.sorotan-slide'); if (!sl.length) return;
+      sorotanIdx = (i + sl.length) % sl.length;
+      sl.forEach((el, k) => el.hidden = k !== sorotanIdx);
+      document.querySelectorAll('.sorotan-titik button').forEach((b, k) => b.classList.toggle('aktif', k === sorotanIdx));
     }
+    function geserSorotan(d) { tampilSorotan(sorotanIdx + d); mulaiOtoSorotan(); }
+    function mulaiOtoSorotan() {
+      clearInterval(sorotanTimer);
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      sorotanTimer = setInterval(() => { if (!document.hidden && !jedaSorotan) tampilSorotan(sorotanIdx + 1); }, 7000);
+    }
+    function renderSorotan() {
+      const w = document.getElementById('wadahSorotan');
+      const list = GAMES.filter(x => x.sorot && !x.sembunyi).sort((a, b) => (b.waktu || 0) - (a.waktu || 0));
+      clearInterval(sorotanTimer);
+      if (!list.length) { w.classList.remove('tampil'); w.innerHTML = ''; return; }
+      sorotanIdx = Math.min(sorotanIdx, list.length - 1);
+      w.classList.add('tampil');
+      w.innerHTML = list.map((g, i) => `<div class="sorotan-slide" ${i === sorotanIdx ? '' : 'hidden'}>${sorotanHTML(g)}</div>`).join('') +
+        (list.length > 1 ? `<div class="sorotan-nav"><button class="sorotan-panah" aria-label="Sebelumnya" onclick="geserSorotan(-1)">‹</button><div class="sorotan-titik">${list.map((_, i) => `<button class="${i === sorotanIdx ? 'aktif' : ''}" aria-label="Sorotan ${i + 1}" onclick="geserSorotan(${i} - sorotanIdx)"></button>`).join('')}</div><button class="sorotan-panah" aria-label="Berikutnya" onclick="geserSorotan(1)">›</button></div>` : '');
+      if (list.length > 1) mulaiOtoSorotan();
+    }
+    document.getElementById('wadahSorotan').addEventListener('mouseenter', () => jedaSorotan = true);
+    document.getElementById('wadahSorotan').addEventListener('mouseleave', () => jedaSorotan = false);
 
-    function renderGrid() {
-      const gd = document.getElementById('gridGame');
-      let f = GAMES.filter(g => !g.sembunyi && (kategoriTerpilih === 'Semua' || normKat(g.kategori) === kategoriTerpilih) && (faseTerpilih === 'Semua' || (g.fase || 'Umum') === faseTerpilih) && (mapelTerpilih === 'Semua' || (g.mapel || 'Umum') === mapelTerpilih) && (g.judul.toLowerCase().includes(kataKunci) || g.creator.toLowerCase().includes(kataKunci) || (g.sekolah && g.sekolah.toLowerCase().includes(kataKunci)) || (g.deskripsi && g.deskripsi.toLowerCase().includes(kataKunci))));
-      f.sort((a, b) => modeSort === 'populer' ? (b.clicks || 0) - (a.clicks || 0) : (b.waktu || 0) - (a.waktu || 0));
-      if (!f.length) { gd.innerHTML = '<div class="empty-state"><div class="icon">🔍</div><h3 style="font-size:1.3rem">Game Belum Ditemukan</h3><p style="color:var(--tinta-soft);font-weight:700">Coba sesuaikan pilihan filter atau kata kunci pencarian Anda.</p></div>'; return; }
-      const sisa = f.length - tampilMax; gd.innerHTML = f.slice(0, tampilMax).map(g => `<article class="kartu ${katInfo(g.kategori).c.replace('kat-', 'k-')}" id="kartu-${g.id}">
+    function kartuHTML(g) { return `<article class="kartu ${katInfo(g.kategori).c.replace('kat-', 'k-')}" id="kartu-${g.id}">
         <div class="kartu-thumb"><img src="${g.thumbnail}" alt="${esc(g.judul)}" loading="lazy" onerror="this.onerror=null;this.src=PH">${katBadge(g)}${isBaru(g) ? '<span class="badge-counter baru">✨ Baru</span>' : ''}</div>
         <div class="kartu-isi">
           <div class="kartu-tags-wrapper"><span class="kartu-tag tag-fase">${esc(g.fase || 'Fase')}</span><span class="kartu-tag tag-mapel">${esc(g.mapel || 'Mapel')}</span></div>
@@ -765,9 +915,22 @@
             <button class="btn btn-sm btn-wa" onclick="bagikanWA('${g.id}')" aria-label="Bagikan ke WhatsApp">${WA_ICON} Bagikan</button>
           </div>
         </div>
-      </article>`).join('') + (sisa > 0 ? `<div style="grid-column:1/-1;text-align:center"><button class="btn btn-putih" onclick="tampilMax+=12;renderGrid()">Muat ${Math.min(12, sisa)} lagi (${sisa} tersisa)</button></div>` : '');
+      </article>`; }
+    function renderGrid() {
+      const lolos = g => !g.sembunyi && (kategoriTerpilih === 'Semua' || normKat(g.kategori) === kategoriTerpilih) && (faseTerpilih === 'Semua' || (g.fase || 'Umum') === faseTerpilih) && (mapelTerpilih === 'Semua' || (g.mapel || 'Umum') === mapelTerpilih) && (g.judul.toLowerCase().includes(kataKunci) || g.creator.toLowerCase().includes(kataKunci) || (g.sekolah && g.sekolah.toLowerCase().includes(kataKunci)) || (g.deskripsi && g.deskripsi.toLowerCase().includes(kataKunci)));
+      const urut = (a, b) => modeSort === 'populer' ? (b.clicks || 0) - (a.clicks || 0) : (b.waktu || 0) - (a.waktu || 0);
+      const semua = GAMES.filter(lolos);
+      [['kurator', 'gridKurator', 'jmlKurator', 'Belum ada pilihan kurator yang cocok dengan filter ini.'],
+       ['kontributor', 'gridKontributor', 'jmlKontributor', 'Belum ada karya kontributor yang cocok. Punya karya? Klik "Ajukan Karya" di bagian atas!']].forEach(([key, gid, jid, kosong]) => {
+        const f = semua.filter(g => normSumber(g.sumber) === key).sort(urut);
+        const gd = document.getElementById(gid); document.getElementById(jid).textContent = f.length + ' karya';
+        if (!f.length) { gd.innerHTML = '<div class="empty-state" style="padding:30px 10px"><div class="icon">🔍</div><p style="color:var(--tinta-soft);font-weight:700">' + kosong + '</p></div>'; return; }
+        const sisa = f.length - tampil[key];
+        gd.innerHTML = f.slice(0, tampil[key]).map(kartuHTML).join('') + (sisa > 0 ? `<div style="grid-column:1/-1;text-align:center"><button class="btn btn-putih" onclick="tampil['${key}']+=12;renderGrid()">Muat ${Math.min(12, sisa)} lagi (${sisa} tersisa)</button></div>` : '');
+      });
       bukaDeepLink();
     }
+
 
     function bagikanWA(id) {
       const g = GAMES.find(x => x.id === id); if (!g) return; SoundEffects.klik();
@@ -781,7 +944,7 @@
       const id = new URLSearchParams(location.search).get('game');
       if (!id) { deepDone = true; return; }
       if (!GAMES.some(x => x.id === id && !x.sembunyi)) return;
-      deepDone = true; tampilMax = 9999; renderGrid();
+      deepDone = true; tampil.kurator = tampil.kontributor = 9999; renderGrid();
       setTimeout(() => {
         const el = document.getElementById('kartu-' + id); if (!el) return;
         el.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -851,7 +1014,7 @@
     document.getElementById('formGameAdmin').addEventListener('submit', e => {
       e.preventDefault(); const id = document.getElementById('editGameId').value;
       const p = {
-        id: id || 'gm-' + Date.now().toString(36), judul: document.getElementById('inJudul').value.trim(), kategori: document.getElementById('inKategori').value.trim(),
+        id: id || 'gm-' + Date.now().toString(36), judul: document.getElementById('inJudul').value.trim(), kategori: document.getElementById('inKategori').value.trim(), sumber: document.getElementById('inSumber').value,
         fase: document.getElementById('inFase').value, mapel: document.getElementById('inMapel').value.trim(), creator: document.getElementById('inCreator').value.trim(),
         sekolah: document.getElementById('inSekolah').value.trim(), url: document.getElementById('inUrl').value.trim(), thumbnail: document.getElementById('inThumb').value.trim(),
         video: document.getElementById('inVideo').value.trim(), tujuan: document.getElementById('inTujuan').value.trim(), deskripsi: document.getElementById('inDeskripsi').value.trim(),
@@ -921,7 +1084,7 @@
         GALERI.unshift(payloadGaleri);
         renderGaleri();
         renderAdminGaleriList();
-        sinkronisasiKeBackend({ action: 'add_galeri', galeri: payloadGaleri });
+        sinkronisasiKeBackend({ action: 'add_galeri', galeri: payloadGaleri }).then(j => { if (j && j.url) { payloadGaleri.url = j.url; renderGaleri(); renderAdminGaleriList(); } else if (j && !j.ok) tampilkanToast('Server menolak foto: ' + (j.error || 'cek token/ukuran')); });
         document.getElementById('formTambahGaleri').reset();
         base64UploadGaleri = '';
         document.getElementById('previewGaleriBox').style.display = 'none';
@@ -936,15 +1099,15 @@
     });
 
     function renderAdminGaleriList() {
-      const w = document.getElementById('listGaleriAdmin');
+      const w = document.getElementById('listGaleriAdmin'); muatGaleriMenunggu();
       if (!GALERI.length) { w.innerHTML = '<p style="text-align:center;color:var(--tinta-soft);padding:14px">Belum ada foto di galeri.</p>'; return; }
       w.innerHTML = GALERI.map(g => `
         <div class="admin-list-item">
           <div style="display:flex;align-items:center;gap:10px;min-width:0">
-            <img src="${g.url}" style="width:42px;height:42px;border-radius:8px;object-fit:cover;border:1.5px solid var(--tinta)">
+            <img src="${esc(g.url)}" style="width:42px;height:42px;border-radius:8px;object-fit:cover;border:1.5px solid var(--tinta)">
             <div class="admin-list-info">
-              <b>${g.judul || 'Dokumentasi'}</b>
-              <small>${g.deskripsi || '-'}</small>
+              <b>${esc(g.judul || 'Dokumentasi')}</b>
+              <small>${esc(g.deskripsi || '-')}${g.pengirim && g.pengirim !== 'Admin' ? ' · ' + esc(g.pengirim) : ''}</small>
             </div>
           </div>
           <button class="btn btn-sm btn-rose" onclick="hapusGaleri('${g.id}')" title="Hapus Foto">🗑️</button>
@@ -967,7 +1130,7 @@
       const w = document.getElementById('listGameAdmin');
       if (!GAMES.length) { w.innerHTML = '<p style="text-align:center;color:var(--tinta-soft);padding:20px">Belum ada daftar game.</p>'; return; }
       w.innerHTML = GAMES.map(g => `<div class="admin-list-item">
-        <div class="admin-list-info"><b>${g.judul} ${g.sorot ? '⭐' : ''} ${g.sembunyi ? '👁️‍🗨️ (Draft / Ajuan)' : ''}</b><small>${g.creator} · ${g.sekolah || '-'} · ${g.fase || '-'} · <b>${g.clicks || 0} Klik</b></small></div>
+        <div class="admin-list-info"><b>${g.judul} ${g.sorot ? '⭐' : ''} ${g.sembunyi ? '👁️‍🗨️ (Draft / Ajuan)' : ''}</b><small>${g.sumber === 'kontributor' ? '🌱 Kontributor' : '⭐ Kurator'} · ${g.creator} · ${g.sekolah || '-'} · ${g.fase || '-'} · <b>${g.clicks || 0} Klik</b></small></div>
         <div class="admin-actions">
           ${g.sembunyi ? `<button class="btn btn-sm btn-emerald" onclick="setujuiGame('${g.id}')" title="Setujui & tayangkan">✅ Setujui</button>` : ''}
           <button class="btn btn-sm btn-amber" onclick="resetCounterGame('${g.id}')" title="Reset Counter">🔄 0</button>
@@ -1004,7 +1167,7 @@ async function setujuiGame(id) {
 
     function editGame(id) {
       const g = GAMES.find(x => x.id === id); if (!g) return;
-      document.getElementById('editGameId').value = g.id; document.getElementById('inJudul').value = g.judul; document.getElementById('inKategori').value = normKat(g.kategori);
+      document.getElementById('editGameId').value = g.id; document.getElementById('inJudul').value = g.judul; document.getElementById('inKategori').value = normKat(g.kategori); document.getElementById('inSumber').value = normSumber(g.sumber);
       document.getElementById('inFase').value = g.fase || 'Umum'; document.getElementById('inMapel').value = g.mapel || ''; document.getElementById('inCreator').value = g.creator;
       document.getElementById('inSekolah').value = g.sekolah || ''; document.getElementById('inUrl').value = g.url; document.getElementById('inThumb').value = g.thumbnail;
       document.getElementById('inVideo').value = g.video || ''; document.getElementById('inTujuan').value = g.tujuan || ''; document.getElementById('inDeskripsi').value = g.deskripsi || '';
